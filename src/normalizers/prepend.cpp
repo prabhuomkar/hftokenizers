@@ -3,11 +3,15 @@
 #include <string>
 #include <regex>
 
-Prepend::Prepend(std::string& prepend) : prepend(prepend) {}
+hftokenizers::normalizers::Prepend::Prepend(std::string& prepend) : prepend(prepend) {}
 
-void Prepend::normalize(std::string& input) {
-    if (!input.empty()) {
-        input.insert(0, prepend);
+void hftokenizers::normalizers::Prepend::normalize(std::string& input) {
+  std::string newInput = "";
+  for (std::string::iterator it = input.begin(); it != input.end(); it++) {
+    if (*it == ' ') {
+      newInput += "_";
     }
-    std::cout << input << '\n';
+    newInput += *it;
+  }
+  std::cout << newInput << '\n';
 }
