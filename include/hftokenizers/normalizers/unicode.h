@@ -28,5 +28,11 @@ namespace hftokenizers {
       NFKD();
       virtual void normalize(std::string& input) override;
     };
+
+    class Nmt : public Normalizer {
+    public:
+      Nmt();
+      virtual void normalize(std::string& input) override;
+    };
   } // namespace normalizers
 } // namespace hftokenizers

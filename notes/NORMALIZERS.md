@@ -7,14 +7,14 @@
 
 ## Types
 
-### Sequence 
+### Sequence
 Allows concatenating multiple other Normalizer as a Sequence which run in the given order.
 
 ### Lowercase
 Converts all the words into lowercase.
 
 ### Strip
-Strips whitespaces from left and right side. 
+Strips whitespaces from left and right side.
 
 ### Replace
 Replaces all the matching occurences of regex pattern with the new content.
@@ -22,8 +22,8 @@ Replaces all the matching occurences of regex pattern with the new content.
 ### Prepend
 Adds given prepend content at the start of the string.
 
-### Unicode
-TBD
+### NFC, NFKC, NFD, NFKD, Nmt
+Support for handling unicode characters
 
 ### Bert
 TBD
