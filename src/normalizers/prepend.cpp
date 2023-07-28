@@ -3,15 +3,22 @@
 #include <string>
 #include <regex>
 
-hftokenizers::normalizers::Prepend::Prepend(std::string& prepend) : prepend(prepend) {}
+hftokenizers::normalizers::Prepend::Prepend(std::wstring& prepend) : prepend(prepend) {}
 
-void hftokenizers::normalizers::Prepend::normalize(std::string& input) {
-  std::string newInput = "";
-  for (std::string::iterator it = input.begin(); it != input.end(); it++) {
-    if (*it == ' ') {
-      newInput += "_";
-    }
-    newInput += *it;
+void hftokenizers::normalizers::Prepend::normalize(std::wstring& input) {
+  std::wstring normalizedInput;
+  std::wstring currentWord;
+  size_t startPos = 0;
+  size_t endPos = 0;
+  while (endPos != std::wstring::npos) {
+      endPos = input.find(L' ', startPos);
+      if (endPos == std::wstring::npos) {
+        currentWord = input.substr(startPos);
+      } else {
+        currentWord = input.substr(startPos, endPos - startPos);
+      }
+      normalizedInput += prepend + currentWord + L" ";
+      startPos = endPos + 1;
   }
-  std::cout << newInput << '\n';
+  std::wcout << normalizedInput << std::endl;
 }

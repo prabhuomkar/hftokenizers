@@ -7,10 +7,10 @@ namespace hftokenizers {
   namespace normalizers {
     class Prepend : public Normalizer {
     public:
-      Prepend(std::string& prepend);
-      virtual void normalize(std::string& input) override;
+      Prepend(std::wstring& prepend);
+      virtual void normalize(std::wstring& input) override;
     private:
-      std::string& prepend;
+      std::wstring& prepend;
     };
   } // namespace normalizers
 } // namespace hftokenizers

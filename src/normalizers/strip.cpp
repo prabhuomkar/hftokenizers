@@ -7,7 +7,7 @@
 
 hftokenizers::normalizers::Strip::Strip(bool stripLeft, bool stripRight) : stripLeft(stripLeft), stripRight(stripRight) {}
 
-void hftokenizers::normalizers::Strip::stripWhitespaces(std::string& str, bool stripLeft) {
+void hftokenizers::normalizers::Strip::stripWhitespaces(std::wstring& str, bool stripLeft) {
   if (stripLeft) {
     str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char ch) {
       return !std::isspace(ch);
@@ -19,7 +19,7 @@ void hftokenizers::normalizers::Strip::stripWhitespaces(std::string& str, bool s
   }
 }
 
-void hftokenizers::normalizers::Strip::normalize(std::string& input) {
+void hftokenizers::normalizers::Strip::normalize(std::wstring& input) {
   if (stripLeft && stripRight) {
     stripWhitespaces(input, true);
     stripWhitespaces(input, false);
@@ -31,7 +31,7 @@ void hftokenizers::normalizers::Strip::normalize(std::string& input) {
       stripWhitespaces(input, false);
     }
   }
-  std::cout << input << '\n';
+  std::wcout << input << std::endl;
 }
 
 hftokenizers::normalizers::StripAccents::StripAccents() {}
@@ -43,12 +43,12 @@ bool hftokenizers::normalizers::StripAccents::isCombiningMark(char c) {
   return combiningClass > 0;
 }
 
-void hftokenizers::normalizers::StripAccents::normalize(std::string& input) {
-  std::string normalizedInput;
+void hftokenizers::normalizers::StripAccents::normalize(std::wstring& input) {
+  std::wstring normalizedInput;
   for (char c: input) {
     if (!isCombiningMark(c)) {
       normalizedInput += c;
     }
   }
-  std::cout << normalizedInput << '\n';
+  std::wcout << normalizedInput << std::endl;
 }

@@ -8,7 +8,7 @@ namespace hftokenizers {
     class Lowercase : public Normalizer {
     public:
       Lowercase();
-      virtual void normalize(std::string& input) override;
+      virtual void normalize(std::wstring& input) override;
     };
   } // namespace normalizers
 } // namespace hftokenizers

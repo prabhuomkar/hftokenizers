@@ -2,6 +2,6 @@
 #include <iostream>
 #include <string>
 
-void hftokenizers::normalizers::Normalizer::normalize(std::string& input) {
-  std::cout << input << '\n';
+void hftokenizers::normalizers::Normalizer::normalize(std::wstring& input) {
+  std::wcout << input << std::endl;
 }

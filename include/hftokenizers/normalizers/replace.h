@@ -7,11 +7,11 @@ namespace hftokenizers {
   namespace normalizers {
     class Replace : public Normalizer {
     public:
-      Replace(std::string& pattern, std::string& content);
-      virtual void normalize(std::string& input) override;
+      Replace(std::wstring& pattern, std::wstring& content);
+      virtual void normalize(std::wstring& input) override;
     private:
-      std::string& pattern;
-      std::string& content;
+      std::wstring& pattern;
+      std::wstring& content;
     };
   } // namespace normalizers
 } // namespace hftokenizers
