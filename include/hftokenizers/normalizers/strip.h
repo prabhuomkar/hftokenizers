@@ -14,5 +14,13 @@ namespace hftokenizers {
       bool stripRight;
       void stripWhitespaces(std::string& str, bool stripLeft);
     };
+
+    class StripAccents : public Normalizer {
+    public:
+      StripAccents();
+      virtual void normalize(std::string& input) override;
+    private:
+      bool isCombiningMark(char c);
+    };
   } // namespace normalizers
 } // namespace hftokenizers

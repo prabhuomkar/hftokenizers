@@ -1,5 +1,6 @@
 #include <iostream>
 #include <hftokenizers/normalizers/unicode.h>
+#include <hftokenizers/normalizers/strip.h>
 
 int main() {
   std::string original = "\ufb01";
@@ -17,5 +18,9 @@ int main() {
   original = "\ufb01";
   hftokenizers::normalizers::Nmt nmt;
   nmt.normalize(original);
+  original = "Me llamó";
+  nfkd.normalize(original);
+  hftokenizers::normalizers::StripAccents sa;
+  sa.normalize(original);
   return 0;
 }
