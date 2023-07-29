@@ -1,12 +1,14 @@
-#include "strip.h"
+// Copyright 2023 Omkar Prabhu
+#include <unicode/uchar.h>
+#include <unicode/putil.h>
 #include <iostream>
 #include <string>
 #include <algorithm>
 #include <codecvt>
-#include <unicode/uchar.h>
-#include <unicode/putil.h>
+#include "hftokenizers/normalizers/strip.h"
 
-hftokenizers::normalizers::Strip::Strip(bool stripLeft, bool stripRight) : stripLeft(stripLeft), stripRight(stripRight) {}
+hftokenizers::normalizers::Strip::Strip(bool stripLeft, bool stripRight) :
+                                        stripLeft(stripLeft), stripRight(stripRight) {}
 
 void hftokenizers::normalizers::Strip::stripWhitespaces(std::wstring& str, bool stripLeft) {
   if (stripLeft) {
@@ -47,7 +49,7 @@ bool hftokenizers::normalizers::StripAccents::isCombiningMark(wchar_t c) {
 
 void hftokenizers::normalizers::StripAccents::normalize(std::wstring& input) {
   std::wstring normalizedInput;
-  for (wchar_t c: input) {
+  for (wchar_t c : input) {
     if (!isCombiningMark(c)) {
       normalizedInput += c;
     }

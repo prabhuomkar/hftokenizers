@@ -2,28 +2,26 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "hftokenizers/tokenizer/normalizer.h"
 
 namespace hftokenizers {
 
 namespace normalizers {
 
-class Strip : public Normalizer {
+class Sequence : public Normalizer {
  public:
-  Strip(bool stripLeft, bool stripRight);
+  explicit Sequence(std::vector<Normalizer*>& normalizers);
+  std::vector<Normalizer*> getNormalizers();
   void normalize(std::wstring& input) override;
  private:
-  bool stripLeft;
-  bool stripRight;
-  void stripWhitespaces(std::wstring& str, bool stripLeft);
+  std::vector<Normalizer*> normalizers;
 };
 
-class StripAccents : public Normalizer {
+class Lowercase : public Normalizer {
  public:
-  StripAccents();
+  Lowercase();
   void normalize(std::wstring& input) override;
- private:
-  bool isCombiningMark(wchar_t c);
 };
 
 }  // namespace normalizers

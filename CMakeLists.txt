@@ -10,18 +10,18 @@ set(ICU_INCLUDE_DIR /usr/local/opt/icu4c/include)
 find_package(ICU COMPONENTS uc i18n)
 
 include_directories(
+  include
   include/hftokenizers
-  include/hftokenizers/normalizers
 )
 
 add_library(hftokenizers SHARED
-  src/normalizer.cpp
-  src/normalizers/lowercase.cpp
+  src/tokenizer/normalizer.cpp
+  src/normalizers/bert.cpp
   src/normalizers/prepend.cpp
   src/normalizers/replace.cpp
   src/normalizers/strip.cpp
   src/normalizers/unicode.cpp
-  src/normalizers/bert.cpp
+  src/normalizers/utils.cpp
 )
 
 target_link_libraries(hftokenizers PRIVATE ICU::uc ICU::i18n)

@@ -1,19 +1,22 @@
-#include "bert.h"
-#include "lowercase.h"
-#include "unicode.h"
+// Copyright 2023 Omkar Prabhu
+#include <unicode/normlzr.h>
+#include <unicode/uchar.h>
+#include <unicode/unistr.h>
 #include <iostream>
 #include <string>
 #include <algorithm>
 #include <vector>
 #include <codecvt>
-#include <unicode/normlzr.h>
-#include <unicode/uchar.h>
-#include <unicode/unistr.h>
+#include "hftokenizers/normalizers/bert.h"
+#include "hftokenizers/normalizers/utils.h"
+#include "hftokenizers/normalizers/unicode.h"
 
 hftokenizers::normalizers::BertNormalizer::BertNormalizer(bool cleanText, bool handleChineseChars,
                                                           bool stripAccents, bool lowercase) :
-                                                          cleanText(cleanText), handleChineseChars(handleChineseChars),
-                                                          stripAccents(stripAccents), lowercase(lowercase) {}
+                                                          cleanText(cleanText),
+                                                          handleChineseChars(handleChineseChars),
+                                                          stripAccents(stripAccents),
+                                                          lowercase(lowercase) {}
 
 bool isWhitespace(wchar_t c) {
   switch (c) {
@@ -60,7 +63,7 @@ void hftokenizers::normalizers::BertNormalizer::doCleanText(std::wstring& input)
 
 void hftokenizers::normalizers::BertNormalizer::doHandleChineseChars(std::wstring& input) {
   std::vector<std::pair<wchar_t, int>> newChars;
-  for (wchar_t c: input) {
+  for (wchar_t c : input) {
     if (isChineseChar(c)) {
       newChars.emplace_back(L' ', 0);
       newChars.emplace_back(c, 1);
@@ -88,12 +91,13 @@ void hftokenizers::normalizers::BertNormalizer::normalize(std::wstring& input) {
     doCleanText(input);
   }
   if (handleChineseChars) {
+    doHandleChineseChars(input);
   }
   if (stripAccents) {
     hftokenizers::normalizers::NFD nfd;
     nfd.normalize(input);
     std::wstring normalizedInput;
-    for (wchar_t c: input) {
+    for (wchar_t c : input) {
       UChar32 uChar32 = static_cast<UChar32>(c);
       if (u_charType(c) != U_NON_SPACING_MARK) {
         normalizedInput += c;

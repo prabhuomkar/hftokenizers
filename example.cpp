@@ -1,5 +1,6 @@
 #include <iostream>
-#include <hftokenizers/normalizers/lowercase.h>
+#include <vector>
+#include <hftokenizers/normalizers/utils.h>
 #include <hftokenizers/normalizers/prepend.h>
 #include <hftokenizers/normalizers/strip.h>
 #include <hftokenizers/normalizers/replace.h>
@@ -44,9 +45,13 @@ int main() {
   hftokenizers::normalizers::StripAccents sa;
   sa.normalize(original);
   original = L"Cụ thể, bạn sẽ tham gia một nhóm các giám đốc điều hành tổ chức, các nhà lãnh đạo doanh nghiệp, các học giả, chuyên gia phát triển và tình nguyện viên riêng biệt trong lĩnh vực phi lợi nhuận…";
-  nfkd.normalize(original);
-  sa.normalize(original);
-  lowercase.normalize(original);
+  // sequence
+  std::vector<hftokenizers::normalizers::Normalizer*> normalizers;
+  normalizers.push_back(&nfkd);
+  normalizers.push_back(&sa);
+  normalizers.push_back(&lowercase);
+  hftokenizers::normalizers::Sequence seq(normalizers);
+  seq.normalize(original);
   // bert
   original = L"Héllò hôw are ü?";
   hftokenizers::normalizers::BertNormalizer bert(true, true, true, true);

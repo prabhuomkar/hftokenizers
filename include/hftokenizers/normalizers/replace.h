@@ -1,17 +1,22 @@
+// Copyright 2023 Omkar Prabhu
 #pragma once
 
-#include "normalizer.h"
 #include <string>
+#include "hftokenizers/tokenizer/normalizer.h"
 
 namespace hftokenizers {
-  namespace normalizers {
-    class Replace : public Normalizer {
-    public:
-      Replace(std::wstring& pattern, std::wstring& content);
-      virtual void normalize(std::wstring& input) override;
-    private:
-      std::wstring& pattern;
-      std::wstring& content;
-    };
-  } // namespace normalizers
-} // namespace hftokenizers
+
+namespace normalizers {
+
+class Replace : public Normalizer {
+ public:
+  Replace(std::wstring& pattern, std::wstring& content);
+  void normalize(std::wstring& input) override;
+ private:
+  std::wstring& pattern;
+  std::wstring& content;
+};
+
+}  // namespace normalizers
+
+}  // namespace hftokenizers

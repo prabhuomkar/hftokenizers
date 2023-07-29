@@ -1,38 +1,43 @@
+// Copyright 2023 Omkar Prabhu
 #pragma once
 
-#include "normalizer.h"
 #include <string>
+#include "hftokenizers/tokenizer/normalizer.h"
 
 namespace hftokenizers {
-  namespace normalizers {
-    class NFC : public Normalizer {
-    public:
-      NFC();
-      virtual void normalize(std::wstring& input) override;
-    };
 
-    class NFKC : public Normalizer {
-    public:
-      NFKC();
-      virtual void normalize(std::wstring& input) override;
-    };
+namespace normalizers {
 
-    class NFD : public Normalizer {
-    public:
-      NFD();
-      virtual void normalize(std::wstring& input) override;
-    };
+class NFC : public Normalizer {
+ public:
+  NFC();
+  void normalize(std::wstring& input) override;
+};
 
-    class NFKD : public Normalizer {
-    public:
-      NFKD();
-      virtual void normalize(std::wstring& input) override;
-    };
+class NFKC : public Normalizer {
+ public:
+  NFKC();
+  void normalize(std::wstring& input) override;
+};
 
-    class Nmt : public Normalizer {
-    public:
-      Nmt();
-      virtual void normalize(std::wstring& input) override;
-    };
-  } // namespace normalizers
-} // namespace hftokenizers
+class NFD : public Normalizer {
+ public:
+  NFD();
+  void normalize(std::wstring& input) override;
+};
+
+class NFKD : public Normalizer {
+ public:
+  NFKD();
+  void normalize(std::wstring& input) override;
+};
+
+class Nmt : public Normalizer {
+ public:
+  Nmt();
+  void normalize(std::wstring& input) override;
+};
+
+}  // namespace normalizers
+
+}  // namespace hftokenizers

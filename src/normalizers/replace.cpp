@@ -1,10 +1,12 @@
-#include "replace.h"
+// Copyright 2023 Omkar Prabhu
 #include <iostream>
 #include <string>
 #include <regex>
 #include <codecvt>
+#include "hftokenizers/normalizers/replace.h"
 
-hftokenizers::normalizers::Replace::Replace(std::wstring& pattern, std::wstring& content) : pattern(pattern), content(content) {}
+hftokenizers::normalizers::Replace::Replace(std::wstring& pattern, std::wstring& content) :
+                                            pattern(pattern), content(content) {}
 
 void hftokenizers::normalizers::Replace::normalize(std::wstring& input) {
   std::wregex regexPattern(pattern);

@@ -1,16 +1,18 @@
-#include "unicode.h"
-#include <iostream>
-#include <string>
-#include <codecvt>
+// Copyright 2023 Omkar Prabhu
 #include <unicode/normlzr.h>
 #include <unicode/uchar.h>
 #include <unicode/unistr.h>
+#include <iostream>
+#include <string>
+#include <codecvt>
+#include "hftokenizers/normalizers/unicode.h"
 
 hftokenizers::normalizers::NFC::NFC() {}
 
 void hftokenizers::normalizers::NFC::normalize(std::wstring& input) {
   UErrorCode status = U_ZERO_ERROR;
-  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()), input.length());
+  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(
+    reinterpret_cast<const UChar32*>(input.c_str()), input.length());
   icu::UnicodeString uNormalizedInput;
   icu::Normalizer::normalize(uInput, UNORM_NFC, 0, uNormalizedInput, status);
   std::wstring normalizedInput;
@@ -28,7 +30,8 @@ hftokenizers::normalizers::NFKC::NFKC() {}
 
 void hftokenizers::normalizers::NFKC::normalize(std::wstring& input) {
   UErrorCode status = U_ZERO_ERROR;
-  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()), input.length());
+  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(
+    reinterpret_cast<const UChar32*>(input.c_str()), input.length());
   icu::UnicodeString uNormalizedInput;
   icu::Normalizer::normalize(uInput, UNORM_NFKC, 0, uNormalizedInput, status);
   std::wstring normalizedInput;
@@ -46,7 +49,8 @@ hftokenizers::normalizers::NFD::NFD() {}
 
 void hftokenizers::normalizers::NFD::normalize(std::wstring& input) {
   UErrorCode status = U_ZERO_ERROR;
-  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()), input.length());
+  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(
+    reinterpret_cast<const UChar32*>(input.c_str()), input.length());
   icu::UnicodeString uNormalizedInput;
   icu::Normalizer::normalize(uInput, UNORM_NFD, 0, uNormalizedInput, status);
   std::wstring normalizedInput;
@@ -64,7 +68,8 @@ hftokenizers::normalizers::NFKD::NFKD() {}
 
 void hftokenizers::normalizers::NFKD::normalize(std::wstring& input) {
   UErrorCode status = U_ZERO_ERROR;
-  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()), input.length());
+  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(
+    reinterpret_cast<const UChar32*>(input.c_str()), input.length());
   icu::UnicodeString uNormalizedInput;
   icu::Normalizer::normalize(uInput, UNORM_NFKD, 0, uNormalizedInput, status);
   std::wstring normalizedInput;
