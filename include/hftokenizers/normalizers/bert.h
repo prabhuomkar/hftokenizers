@@ -8,7 +8,7 @@ namespace hftokenizers {
 
 namespace normalizers {
 
-class BertNormalizer : public Normalizer {
+class BertNormalizer : public hftokenizers::tokenizer::Normalizer {
  public:
   BertNormalizer(bool cleanText, bool handleChineseChars,
                  bool stripAccents, bool lowercase);

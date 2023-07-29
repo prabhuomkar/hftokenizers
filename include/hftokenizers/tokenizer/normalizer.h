@@ -6,7 +6,18 @@
 
 namespace hftokenizers {
 
-namespace normalizers {
+namespace tokenizer {
+
+class NormalizedString {
+ public:
+  explicit NormalizedString(std::wstring& original);
+  ~NormalizedString() {}
+  std::string get();
+  std::wstring& getOriginal();
+ private:
+  std::wstring& original;
+  std::wstring& normalized;
+};
 
 class Normalizer {
  public:
@@ -14,6 +25,6 @@ class Normalizer {
   virtual void normalize(std::wstring& input) = 0;
 };
 
-}  // namespace normalizers
+}  // namespace tokenizer
 
 }  // namespace hftokenizers

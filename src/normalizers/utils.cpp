@@ -7,16 +7,16 @@
 #include "hftokenizers/normalizers/utils.h"
 
 hftokenizers::normalizers::Sequence::Sequence(
-  std::vector<hftokenizers::normalizers::Normalizer*>& normalizers
+  std::vector<hftokenizers::tokenizer::Normalizer*>& normalizers
 ) : normalizers(normalizers) {}
 
-std::vector<hftokenizers::normalizers::Normalizer*>
+std::vector<hftokenizers::tokenizer::Normalizer*>
   hftokenizers::normalizers::Sequence::getNormalizers() {
   return normalizers;
 }
 
 void hftokenizers::normalizers::Sequence::normalize(std::wstring& input) {
-  for (hftokenizers::normalizers::Normalizer* normalizer : normalizers) {
+  for (hftokenizers::tokenizer::Normalizer* normalizer : normalizers) {
     normalizer->normalize(input);
   }
   std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;

@@ -9,16 +9,16 @@ namespace hftokenizers {
 
 namespace normalizers {
 
-class Sequence : public Normalizer {
+class Sequence : public hftokenizers::tokenizer::Normalizer {
  public:
-  explicit Sequence(std::vector<Normalizer*>& normalizers);
-  std::vector<Normalizer*> getNormalizers();
+  explicit Sequence(std::vector<hftokenizers::tokenizer::Normalizer*>& normalizers);
+  std::vector<hftokenizers::tokenizer::Normalizer*> getNormalizers();
   void normalize(std::wstring& input) override;
  private:
-  std::vector<Normalizer*> normalizers;
+  std::vector<hftokenizers::tokenizer::Normalizer*> normalizers;
 };
 
-class Lowercase : public Normalizer {
+class Lowercase : public hftokenizers::tokenizer::Normalizer {
  public:
   Lowercase();
   void normalize(std::wstring& input) override;

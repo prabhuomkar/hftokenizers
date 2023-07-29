@@ -8,7 +8,7 @@ namespace hftokenizers {
 
 namespace normalizers {
 
-class Replace : public Normalizer {
+class Replace : public hftokenizers::tokenizer::Normalizer {
  public:
   Replace(std::wstring& pattern, std::wstring& content);
   void normalize(std::wstring& input) override;

@@ -8,7 +8,7 @@ namespace hftokenizers {
 
 namespace normalizers {
 
-class Strip : public Normalizer {
+class Strip : public hftokenizers::tokenizer::Normalizer {
  public:
   Strip(bool stripLeft, bool stripRight);
   void normalize(std::wstring& input) override;
@@ -18,7 +18,7 @@ class Strip : public Normalizer {
   void stripWhitespaces(std::wstring& str, bool stripLeft);
 };
 
-class StripAccents : public Normalizer {
+class StripAccents : public hftokenizers::tokenizer::Normalizer {
  public:
   StripAccents();
   void normalize(std::wstring& input) override;

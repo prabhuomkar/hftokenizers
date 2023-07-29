@@ -46,7 +46,7 @@ int main() {
   sa.normalize(original);
   original = L"Cụ thể, bạn sẽ tham gia một nhóm các giám đốc điều hành tổ chức, các nhà lãnh đạo doanh nghiệp, các học giả, chuyên gia phát triển và tình nguyện viên riêng biệt trong lĩnh vực phi lợi nhuận…";
   // sequence
-  std::vector<hftokenizers::normalizers::Normalizer*> normalizers;
+  std::vector<hftokenizers::tokenizer::Normalizer*> normalizers;
   normalizers.push_back(&nfkd);
   normalizers.push_back(&sa);
   normalizers.push_back(&lowercase);

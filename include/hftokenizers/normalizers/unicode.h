@@ -8,31 +8,31 @@ namespace hftokenizers {
 
 namespace normalizers {
 
-class NFC : public Normalizer {
+class NFC : public hftokenizers::tokenizer::Normalizer {
  public:
   NFC();
   void normalize(std::wstring& input) override;
 };
 
-class NFKC : public Normalizer {
+class NFKC : public hftokenizers::tokenizer::Normalizer {
  public:
   NFKC();
   void normalize(std::wstring& input) override;
 };
 
-class NFD : public Normalizer {
+class NFD : public hftokenizers::tokenizer::Normalizer {
  public:
   NFD();
   void normalize(std::wstring& input) override;
 };
 
-class NFKD : public Normalizer {
+class NFKD : public hftokenizers::tokenizer::Normalizer {
  public:
   NFKD();
   void normalize(std::wstring& input) override;
 };
 
-class Nmt : public Normalizer {
+class Nmt : public hftokenizers::tokenizer::Normalizer {
  public:
   Nmt();
   void normalize(std::wstring& input) override;
