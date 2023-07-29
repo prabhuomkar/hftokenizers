@@ -11,7 +11,7 @@ namespace normalizers {
 class Strip : public hftokenizers::tokenizer::Normalizer {
  public:
   Strip(bool stripLeft, bool stripRight);
-  void normalize(std::wstring& input) override;
+  void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
  private:
   bool stripLeft;
   bool stripRight;
@@ -21,7 +21,7 @@ class Strip : public hftokenizers::tokenizer::Normalizer {
 class StripAccents : public hftokenizers::tokenizer::Normalizer {
  public:
   StripAccents();
-  void normalize(std::wstring& input) override;
+  void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
  private:
   bool isCombiningMark(wchar_t c);
 };

@@ -12,7 +12,7 @@ class BertNormalizer : public hftokenizers::tokenizer::Normalizer {
  public:
   BertNormalizer(bool cleanText, bool handleChineseChars,
                  bool stripAccents, bool lowercase);
-  void normalize(std::wstring& input) override;
+  void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
   friend bool isWhitespace(wchar_t c);
   friend bool isControl(wchar_t c);
   friend bool isChineseChar(wchar_t c);
@@ -21,8 +21,8 @@ class BertNormalizer : public hftokenizers::tokenizer::Normalizer {
   bool handleChineseChars = true;
   bool stripAccents = true;
   bool lowercase = true;
-  void doCleanText(std::wstring& input);
-  void doHandleChineseChars(std::wstring& input);
+  void doCleanText(hftokenizers::tokenizer::NormalizedString& input);
+  void doHandleChineseChars(hftokenizers::tokenizer::NormalizedString& input);
 };
 
 }  // namespace normalizers

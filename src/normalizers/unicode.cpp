@@ -9,85 +9,51 @@
 
 hftokenizers::normalizers::NFC::NFC() {}
 
-void hftokenizers::normalizers::NFC::normalize(std::wstring& input) {
+std::wstring unicodeNormalization(std::wstring& input, UNormalizationMode mode) {
   UErrorCode status = U_ZERO_ERROR;
   icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(
     reinterpret_cast<const UChar32*>(input.c_str()), input.length());
   icu::UnicodeString uNormalizedInput;
-  icu::Normalizer::normalize(uInput, UNORM_NFC, 0, uNormalizedInput, status);
+  icu::Normalizer::normalize(uInput, mode, 0, uNormalizedInput, status);
   std::wstring normalizedInput;
   for (int32_t i = 0; i < uNormalizedInput.length(); ++i) {
     UChar32 c = uNormalizedInput.char32At(i);
     normalizedInput.push_back(static_cast<wchar_t>(c));
   }
-  input = normalizedInput;
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
-  std::cout << sNormalizedInput << std::endl;
+  return normalizedInput;
+}
+
+void hftokenizers::normalizers::NFC::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+  std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFC);
+  input.setNormalized(normalizedInput);
 }
 
 hftokenizers::normalizers::NFKC::NFKC() {}
 
-void hftokenizers::normalizers::NFKC::normalize(std::wstring& input) {
-  UErrorCode status = U_ZERO_ERROR;
-  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(
-    reinterpret_cast<const UChar32*>(input.c_str()), input.length());
-  icu::UnicodeString uNormalizedInput;
-  icu::Normalizer::normalize(uInput, UNORM_NFKC, 0, uNormalizedInput, status);
-  std::wstring normalizedInput;
-  for (int32_t i = 0; i < uNormalizedInput.length(); ++i) {
-    UChar32 c = uNormalizedInput.char32At(i);
-    normalizedInput.push_back(static_cast<wchar_t>(c));
-  }
-  input = normalizedInput;
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
-  std::cout << sNormalizedInput << std::endl;
+void hftokenizers::normalizers::NFKC::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+  std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFKC);
+  input.setNormalized(normalizedInput);
 }
 
 hftokenizers::normalizers::NFD::NFD() {}
 
-void hftokenizers::normalizers::NFD::normalize(std::wstring& input) {
-  UErrorCode status = U_ZERO_ERROR;
-  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(
-    reinterpret_cast<const UChar32*>(input.c_str()), input.length());
-  icu::UnicodeString uNormalizedInput;
-  icu::Normalizer::normalize(uInput, UNORM_NFD, 0, uNormalizedInput, status);
-  std::wstring normalizedInput;
-  for (int32_t i = 0; i < uNormalizedInput.length(); ++i) {
-    UChar32 c = uNormalizedInput.char32At(i);
-    normalizedInput.push_back(static_cast<wchar_t>(c));
-  }
-  input = normalizedInput;
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
-  std::cout << sNormalizedInput << std::endl;
+void hftokenizers::normalizers::NFD::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+  std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFD);
+  input.setNormalized(normalizedInput);
 }
 
 hftokenizers::normalizers::NFKD::NFKD() {}
 
-void hftokenizers::normalizers::NFKD::normalize(std::wstring& input) {
-  UErrorCode status = U_ZERO_ERROR;
-  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(
-    reinterpret_cast<const UChar32*>(input.c_str()), input.length());
-  icu::UnicodeString uNormalizedInput;
-  icu::Normalizer::normalize(uInput, UNORM_NFKD, 0, uNormalizedInput, status);
-  std::wstring normalizedInput;
-  for (int32_t i = 0; i < uNormalizedInput.length(); ++i) {
-    UChar32 c = uNormalizedInput.char32At(i);
-    normalizedInput.push_back(static_cast<wchar_t>(c));
-  }
-  input = normalizedInput;
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
-  std::cout << sNormalizedInput << std::endl;
+void hftokenizers::normalizers::NFKD::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+  std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFKD);
+  input.setNormalized(normalizedInput);
 }
 
 hftokenizers::normalizers::Nmt::Nmt() {}
 
-void hftokenizers::normalizers::Nmt::normalize(std::wstring& input) {
+void hftokenizers::normalizers::Nmt::normalize(hftokenizers::tokenizer::NormalizedString& input) {
   std::wstring normalizedInput;
-  for (unsigned char c : input) {
+  for (unsigned char c : input.getNormalized()) {
     if ((c >= 0x0001 && c <= 0x0008) || (c >= 0x000E && c <= 0x001F) ||
       c == 0x000B || c == 0x007F || c == 0x008F || c == 0x009F
     ) {
@@ -96,9 +62,9 @@ void hftokenizers::normalizers::Nmt::normalize(std::wstring& input) {
       normalizedInput += c;
     }
   }
-  input = normalizedInput;
+  input.setNormalized(normalizedInput);
   normalizedInput.clear();
-  for (unsigned char c : input) {
+  for (unsigned char c : input.getNormalized()) {
     switch (c) {
       case 0x0009:
       case 0x000A:
@@ -117,7 +83,5 @@ void hftokenizers::normalizers::Nmt::normalize(std::wstring& input) {
         break;
     }
   }
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(input);
-  std::cout << sNormalizedInput << std::endl;
+  input.setNormalized(normalizedInput);
 }

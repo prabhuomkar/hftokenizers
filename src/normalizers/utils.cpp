@@ -1,7 +1,6 @@
 // Copyright 2023 Omkar Prabhu
 #include <iostream>
 #include <string>
-#include <codecvt>
 #include <vector>
 #include "hftokenizers/tokenizer/normalizer.h"
 #include "hftokenizers/normalizers/utils.h"
@@ -15,24 +14,18 @@ std::vector<hftokenizers::tokenizer::Normalizer*>
   return normalizers;
 }
 
-void hftokenizers::normalizers::Sequence::normalize(std::wstring& input) {
+void hftokenizers::normalizers::Sequence::normalize(hftokenizers::tokenizer::NormalizedString& input) {
   for (hftokenizers::tokenizer::Normalizer* normalizer : normalizers) {
     normalizer->normalize(input);
   }
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(input);
-  std::cout << sNormalizedInput << std::endl;
 }
 
 hftokenizers::normalizers::Lowercase::Lowercase() {}
 
-void hftokenizers::normalizers::Lowercase::normalize(std::wstring& input) {
+void hftokenizers::normalizers::Lowercase::normalize(hftokenizers::tokenizer::NormalizedString& input) {
   std::wstring normalizedInput;
-  for (int i = 0; i < input.length(); i++) {
-    normalizedInput.push_back(tolower(input[i]));
+  for (int i = 0; i < input.getNormalized().length(); i++) {
+    normalizedInput.push_back(tolower(input.getNormalized()[i]));
   }
-  input = normalizedInput;
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
-  std::cout << sNormalizedInput << std::endl;
+  input.setNormalized(normalizedInput);
 }

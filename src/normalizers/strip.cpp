@@ -22,21 +22,18 @@ void hftokenizers::normalizers::Strip::stripWhitespaces(std::wstring& str, bool 
   }
 }
 
-void hftokenizers::normalizers::Strip::normalize(std::wstring& input) {
+void hftokenizers::normalizers::Strip::normalize(hftokenizers::tokenizer::NormalizedString& input) {
   if (stripLeft && stripRight) {
-    stripWhitespaces(input, true);
-    stripWhitespaces(input, false);
+    stripWhitespaces(input.getNormalized(), true);
+    stripWhitespaces(input.getNormalized(), false);
   } else {
     if (stripLeft) {
-      stripWhitespaces(input, true);
+      stripWhitespaces(input.getNormalized(), true);
     }
     if (stripRight) {
-      stripWhitespaces(input, false);
+      stripWhitespaces(input.getNormalized(), false);
     }
   }
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(input);
-  std::cout << sNormalizedInput << std::endl;
 }
 
 hftokenizers::normalizers::StripAccents::StripAccents() {}
@@ -47,15 +44,12 @@ bool hftokenizers::normalizers::StripAccents::isCombiningMark(wchar_t c) {
   return combiningClass > 0;
 }
 
-void hftokenizers::normalizers::StripAccents::normalize(std::wstring& input) {
+void hftokenizers::normalizers::StripAccents::normalize(hftokenizers::tokenizer::NormalizedString& input) {
   std::wstring normalizedInput;
-  for (wchar_t c : input) {
+  for (wchar_t c : input.getNormalized()) {
     if (!isCombiningMark(c)) {
       normalizedInput += c;
     }
   }
-  input = normalizedInput;
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
-  std::cout << sNormalizedInput << std::endl;
+  input.setNormalized(normalizedInput);
 }

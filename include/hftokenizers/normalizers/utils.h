@@ -13,7 +13,7 @@ class Sequence : public hftokenizers::tokenizer::Normalizer {
  public:
   explicit Sequence(std::vector<hftokenizers::tokenizer::Normalizer*>& normalizers);
   std::vector<hftokenizers::tokenizer::Normalizer*> getNormalizers();
-  void normalize(std::wstring& input) override;
+  void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
  private:
   std::vector<hftokenizers::tokenizer::Normalizer*> normalizers;
 };
@@ -21,7 +21,7 @@ class Sequence : public hftokenizers::tokenizer::Normalizer {
 class Lowercase : public hftokenizers::tokenizer::Normalizer {
  public:
   Lowercase();
-  void normalize(std::wstring& input) override;
+  void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
 };
 
 }  // namespace normalizers

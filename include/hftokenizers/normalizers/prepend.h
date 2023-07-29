@@ -11,7 +11,7 @@ namespace normalizers {
 class Prepend : public hftokenizers::tokenizer::Normalizer {
  public:
   explicit Prepend(std::wstring& prepend);
-  void normalize(std::wstring& input) override;
+  void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
  private:
   std::wstring& prepend;
 };

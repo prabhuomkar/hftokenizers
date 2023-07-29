@@ -11,9 +11,16 @@ namespace tokenizer {
 class NormalizedString {
  public:
   explicit NormalizedString(std::wstring& original);
-  ~NormalizedString() {}
   std::string get();
   std::wstring& getOriginal();
+  std::wstring& getNormalized();
+  void setNormalized(std::wstring& normalized);
+  NormalizedString& operator=(const NormalizedString& other) {
+    if (this == &other) {
+      return *this;
+    }
+    return *this;
+  }
  private:
   std::wstring& original;
   std::wstring& normalized;
@@ -22,7 +29,7 @@ class NormalizedString {
 class Normalizer {
  public:
   virtual ~Normalizer() {}
-  virtual void normalize(std::wstring& input) = 0;
+  virtual void normalize(NormalizedString& input) = 0;
 };
 
 }  // namespace tokenizer

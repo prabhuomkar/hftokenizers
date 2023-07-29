@@ -52,18 +52,18 @@ bool isChineseChar(wchar_t c) {
           (uChar32 >= 0x2F800 && uChar32 <= 0x2FA1F);
 }
 
-void hftokenizers::normalizers::BertNormalizer::doCleanText(std::wstring& input) {
-  input.erase(std::remove_if(input.begin(), input.end(), [](wchar_t c) {
+void hftokenizers::normalizers::BertNormalizer::doCleanText(hftokenizers::tokenizer::NormalizedString& input) {
+  input.getNormalized().erase(std::remove_if(input.getNormalized().begin(), input.getNormalized().end(), [](wchar_t c) {
     return c == L'\0' || c == L'\uFFFD' || isControl(c);
-  }), input.end());
-  std::transform(input.begin(), input.end(), input.begin(), [](wchar_t c) {
+  }), input.getNormalized().end());
+  std::transform(input.getNormalized().begin(), input.getNormalized().end(), input.getNormalized().begin(), [](wchar_t c) {
     return isWhitespace(c) ? ' ' : c;
   });
 }
 
-void hftokenizers::normalizers::BertNormalizer::doHandleChineseChars(std::wstring& input) {
+void hftokenizers::normalizers::BertNormalizer::doHandleChineseChars(hftokenizers::tokenizer::NormalizedString& input) {
   std::vector<std::pair<wchar_t, int>> newChars;
-  for (wchar_t c : input) {
+  for (wchar_t c : input.getNormalized()) {
     if (isChineseChar(c)) {
       newChars.emplace_back(L' ', 0);
       newChars.emplace_back(c, 1);
@@ -75,18 +75,18 @@ void hftokenizers::normalizers::BertNormalizer::doHandleChineseChars(std::wstrin
   size_t i = 0;
   for (const auto& change : newChars) {
     if (change.second > 0) {
-      input.insert(i, 1, change.first);
+      input.getNormalized().insert(i, 1, change.first);
     } else if (change.second < 0) {
       i += change.second;
-      input.insert(i, 1, change.first);
+      input.getNormalized().insert(i, 1, change.first);
     } else {
-      input[i] = change.first;
+      input.getNormalized()[i] = change.first;
     }
     i++;
   }
 }
 
-void hftokenizers::normalizers::BertNormalizer::normalize(std::wstring& input) {
+void hftokenizers::normalizers::BertNormalizer::normalize(hftokenizers::tokenizer::NormalizedString& input) {
   if (cleanText) {
     doCleanText(input);
   }
@@ -97,19 +97,16 @@ void hftokenizers::normalizers::BertNormalizer::normalize(std::wstring& input) {
     hftokenizers::normalizers::NFD nfd;
     nfd.normalize(input);
     std::wstring normalizedInput;
-    for (wchar_t c : input) {
+    for (wchar_t c : input.getNormalized()) {
       UChar32 uChar32 = static_cast<UChar32>(c);
       if (u_charType(c) != U_NON_SPACING_MARK) {
         normalizedInput += c;
       }
     }
-    input = normalizedInput;
+    input.setNormalized(normalizedInput);
   }
   if (lowercase) {
     hftokenizers::normalizers::Lowercase lowercase;
     lowercase.normalize(input);
   }
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(input);
-  std::cout << sNormalizedInput << std::endl;
 }

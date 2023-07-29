@@ -7,23 +7,20 @@
 
 hftokenizers::normalizers::Prepend::Prepend(std::wstring& prepend) : prepend(prepend) {}
 
-void hftokenizers::normalizers::Prepend::normalize(std::wstring& input) {
+void hftokenizers::normalizers::Prepend::normalize(hftokenizers::tokenizer::NormalizedString& input) {
   std::wstring normalizedInput;
   std::wstring currentWord;
   size_t startPos = 0;
   size_t endPos = 0;
   while (endPos != std::wstring::npos) {
-    endPos = input.find(L' ', startPos);
+    endPos = input.getNormalized().find(L' ', startPos);
     if (endPos == std::wstring::npos) {
-      currentWord = input.substr(startPos);
+      currentWord = input.getNormalized().substr(startPos);
     } else {
-      currentWord = input.substr(startPos, endPos - startPos);
+      currentWord = input.getNormalized().substr(startPos, endPos - startPos);
     }
     normalizedInput += prepend + currentWord + L" ";
     startPos = endPos + 1;
   }
-  input = normalizedInput;
-  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
-  std::cout << sNormalizedInput << std::endl;
+  input.setNormalized(normalizedInput);
 }

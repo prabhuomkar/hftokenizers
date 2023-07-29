@@ -17,6 +17,14 @@ std::wstring& hftokenizers::tokenizer::NormalizedString::getOriginal() {
   return original;
 }
 
-void hftokenizers::tokenizer::Normalizer::normalize(std::wstring& input) {
-  std::wcout << input << std::endl;
+std::wstring& hftokenizers::tokenizer::NormalizedString::getNormalized() {
+  return normalized;
+}
+
+void hftokenizers::tokenizer::NormalizedString::setNormalized(std::wstring& newNormalized) {
+  normalized = newNormalized;
+}
+
+void hftokenizers::tokenizer::Normalizer::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+  std::cout << input.get() << std::endl;
 }
