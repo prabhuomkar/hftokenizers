@@ -21,6 +21,7 @@ add_library(hftokenizers SHARED
   src/normalizers/replace.cpp
   src/normalizers/strip.cpp
   src/normalizers/unicode.cpp
+  src/normalizers/bert.cpp
 )
 
 target_link_libraries(hftokenizers PRIVATE ICU::uc ICU::i18n)

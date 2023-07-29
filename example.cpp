@@ -1,9 +1,10 @@
 #include <iostream>
-#include <hftokenizers/normalizers/unicode.h>
-#include <hftokenizers/normalizers/strip.h>
 #include <hftokenizers/normalizers/lowercase.h>
 #include <hftokenizers/normalizers/prepend.h>
+#include <hftokenizers/normalizers/strip.h>
 #include <hftokenizers/normalizers/replace.h>
+#include <hftokenizers/normalizers/unicode.h>
+#include <hftokenizers/normalizers/bert.h>
 
 int main() {
   // lowercase
@@ -46,5 +47,9 @@ int main() {
   nfkd.normalize(original);
   sa.normalize(original);
   lowercase.normalize(original);
+  // bert
+  original = L"Héllò hôw are ü?";
+  hftokenizers::normalizers::BertNormalizer bert(true, true, true, true);
+  bert.normalize(original);
   return 0;
 }
