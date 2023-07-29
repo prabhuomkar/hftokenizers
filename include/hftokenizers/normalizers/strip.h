@@ -20,7 +20,7 @@ namespace hftokenizers {
       StripAccents();
       virtual void normalize(std::wstring& input) override;
     private:
-      bool isCombiningMark(char c);
+      bool isCombiningMark(wchar_t c);
     };
   } // namespace normalizers
 } // namespace hftokenizers

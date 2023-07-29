@@ -1,6 +1,7 @@
 #include "unicode.h"
 #include <iostream>
 #include <string>
+#include <codecvt>
 #include <unicode/normlzr.h>
 #include <unicode/uchar.h>
 #include <unicode/unistr.h>
@@ -17,7 +18,10 @@ void hftokenizers::normalizers::NFC::normalize(std::wstring& input) {
     UChar32 c = uNormalizedInput.char32At(i);
     normalizedInput.push_back(static_cast<wchar_t>(c));
   }
-  std::wcout << normalizedInput << std::endl;
+  input = normalizedInput;
+  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
+  std::cout << sNormalizedInput << std::endl;
 }
 
 hftokenizers::normalizers::NFKC::NFKC() {}
@@ -32,7 +36,10 @@ void hftokenizers::normalizers::NFKC::normalize(std::wstring& input) {
     UChar32 c = uNormalizedInput.char32At(i);
     normalizedInput.push_back(static_cast<wchar_t>(c));
   }
-  std::wcout << normalizedInput << std::endl;
+  input = normalizedInput;
+  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
+  std::cout << sNormalizedInput << std::endl;
 }
 
 hftokenizers::normalizers::NFD::NFD() {}
@@ -47,7 +54,10 @@ void hftokenizers::normalizers::NFD::normalize(std::wstring& input) {
     UChar32 c = uNormalizedInput.char32At(i);
     normalizedInput.push_back(static_cast<wchar_t>(c));
   }
-  std::wcout << normalizedInput << std::endl;
+  input = normalizedInput;
+  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
+  std::cout << sNormalizedInput << std::endl;
 }
 
 hftokenizers::normalizers::NFKD::NFKD() {}
@@ -62,7 +72,10 @@ void hftokenizers::normalizers::NFKD::normalize(std::wstring& input) {
     UChar32 c = uNormalizedInput.char32At(i);
     normalizedInput.push_back(static_cast<wchar_t>(c));
   }
-  std::wcout << normalizedInput << std::endl;
+  input = normalizedInput;
+  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
+  std::cout << sNormalizedInput << std::endl;
 }
 
 hftokenizers::normalizers::Nmt::Nmt() {}
@@ -99,5 +112,7 @@ void hftokenizers::normalizers::Nmt::normalize(std::wstring& input) {
         break;
     }
   }
-  std::wcout << normalizedInput << std::endl;
+  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+  std::string sNormalizedInput = converter.to_bytes(input);
+  std::cout << sNormalizedInput << std::endl;
 }

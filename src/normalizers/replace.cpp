@@ -2,11 +2,15 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <codecvt>
 
 hftokenizers::normalizers::Replace::Replace(std::wstring& pattern, std::wstring& content) : pattern(pattern), content(content) {}
 
 void hftokenizers::normalizers::Replace::normalize(std::wstring& input) {
   std::wregex regexPattern(pattern);
-  input = std::regex_replace(input, regexPattern, content);
-  std::wcout << input << std::endl;
+  std::wstring normalizedInput = std::regex_replace(input, regexPattern, content);
+  input = normalizedInput;
+  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
+  std::cout << sNormalizedInput << std::endl;
 }

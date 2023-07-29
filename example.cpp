@@ -28,10 +28,10 @@ int main() {
   // unicode
   original = L"\ufb01";
   hftokenizers::normalizers::NFC nfc;
-  // nfc.normalize(original);
+  nfc.normalize(original);
   original = L"\ufb01";
   hftokenizers::normalizers::NFD nfd;
-  // nfd.normalize(original);
+  nfd.normalize(original);
   original = L"\ufb01";
   hftokenizers::normalizers::NFKC nfkc;
   nfkc.normalize(original);
@@ -42,5 +42,9 @@ int main() {
   nfkd.normalize(original);
   hftokenizers::normalizers::StripAccents sa;
   sa.normalize(original);
+  original = L"Cụ thể, bạn sẽ tham gia một nhóm các giám đốc điều hành tổ chức, các nhà lãnh đạo doanh nghiệp, các học giả, chuyên gia phát triển và tình nguyện viên riêng biệt trong lĩnh vực phi lợi nhuận…";
+  nfkd.normalize(original);
+  sa.normalize(original);
+  lowercase.normalize(original);
   return 0;
 }

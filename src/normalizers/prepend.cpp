@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <codecvt>
 
 hftokenizers::normalizers::Prepend::Prepend(std::wstring& prepend) : prepend(prepend) {}
 
@@ -20,5 +21,8 @@ void hftokenizers::normalizers::Prepend::normalize(std::wstring& input) {
       normalizedInput += prepend + currentWord + L" ";
       startPos = endPos + 1;
   }
-  std::wcout << normalizedInput << std::endl;
+  input = normalizedInput;
+  std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+  std::string sNormalizedInput = converter.to_bytes(normalizedInput);
+  std::cout << sNormalizedInput << std::endl;
 }
