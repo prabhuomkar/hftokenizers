@@ -17,6 +17,7 @@ include_directories(
 add_library(hftokenizers SHARED
   src/tokenizer/normalizer.cpp
   src/normalizers/bert.cpp
+  src/normalizers/precompiled.cpp
   src/normalizers/prepend.cpp
   src/normalizers/replace.cpp
   src/normalizers/strip.cpp

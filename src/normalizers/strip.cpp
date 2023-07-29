@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include <codecvt>
 #include "hftokenizers/normalizers/strip.h"
 
 hftokenizers::normalizers::Strip::Strip(bool stripLeft, bool stripRight) :

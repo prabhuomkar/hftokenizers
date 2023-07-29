@@ -6,7 +6,6 @@
 #include <string>
 #include <algorithm>
 #include <vector>
-#include <codecvt>
 #include "hftokenizers/normalizers/bert.h"
 #include "hftokenizers/normalizers/utils.h"
 #include "hftokenizers/normalizers/unicode.h"
@@ -56,7 +55,8 @@ void hftokenizers::normalizers::BertNormalizer::doCleanText(hftokenizers::tokeni
   input.getNormalized().erase(std::remove_if(input.getNormalized().begin(), input.getNormalized().end(), [](wchar_t c) {
     return c == L'\0' || c == L'\uFFFD' || isControl(c);
   }), input.getNormalized().end());
-  std::transform(input.getNormalized().begin(), input.getNormalized().end(), input.getNormalized().begin(), [](wchar_t c) {
+  std::transform(input.getNormalized().begin(), input.getNormalized().end(),
+                 input.getNormalized().begin(), [](wchar_t c) {
     return isWhitespace(c) ? ' ' : c;
   });
 }

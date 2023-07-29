@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <regex>
-#include <codecvt>
 #include "hftokenizers/normalizers/prepend.h"
 
 hftokenizers::normalizers::Prepend::Prepend(std::wstring& prepend) : prepend(prepend) {}
