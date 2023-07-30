@@ -1,8 +1,9 @@
 // Copyright 2023 Omkar Prabhu
-#include <iostream>
-#include <string>
-#include <regex>
 #include "hftokenizers/normalizers/prepend.h"
+
+#include <iostream>
+#include <regex>
+#include <string>
 
 hftokenizers::normalizers::Prepend::Prepend(std::wstring& prepend) : prepend(prepend) {}
 

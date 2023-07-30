@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+
 #include "hftokenizers/tokenizer/normalizer.h"
 
 namespace hftokenizers {
@@ -14,6 +15,7 @@ class Sequence : public hftokenizers::tokenizer::Normalizer {
   explicit Sequence(std::vector<hftokenizers::tokenizer::Normalizer*>& normalizers);
   std::vector<hftokenizers::tokenizer::Normalizer*> getNormalizers();
   void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
+
  private:
   std::vector<hftokenizers::tokenizer::Normalizer*> normalizers;
 };
@@ -24,6 +26,6 @@ class Lowercase : public hftokenizers::tokenizer::Normalizer {
   void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
 };
 
-}  // namespace normalizers
+}   // namespace normalizers
 
-}  // namespace hftokenizers
+}   // namespace hftokenizers

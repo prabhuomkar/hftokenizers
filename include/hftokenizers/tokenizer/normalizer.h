@@ -21,6 +21,7 @@ class NormalizedString {
     }
     return *this;
   }
+
  private:
   std::wstring& original;
   std::wstring& normalized;
@@ -32,6 +33,6 @@ class Normalizer {
   virtual void normalize(NormalizedString& input) = 0;
 };
 
-}  // namespace tokenizer
+}   // namespace tokenizer
 
-}  // namespace hftokenizers
+}   // namespace hftokenizers

@@ -1,16 +1,16 @@
 // Copyright 2023 Omkar Prabhu
+#include "hftokenizers/normalizers/utils.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
+
 #include "hftokenizers/tokenizer/normalizer.h"
-#include "hftokenizers/normalizers/utils.h"
 
-hftokenizers::normalizers::Sequence::Sequence(
-  std::vector<hftokenizers::tokenizer::Normalizer*>& normalizers
-) : normalizers(normalizers) {}
+hftokenizers::normalizers::Sequence::Sequence(std::vector<hftokenizers::tokenizer::Normalizer*>& normalizers)
+    : normalizers(normalizers) {}
 
-std::vector<hftokenizers::tokenizer::Normalizer*>
-  hftokenizers::normalizers::Sequence::getNormalizers() {
+std::vector<hftokenizers::tokenizer::Normalizer*> hftokenizers::normalizers::Sequence::getNormalizers() {
   return normalizers;
 }
 

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+
 #include "hftokenizers/tokenizer/normalizer.h"
 
 namespace hftokenizers {
@@ -12,11 +13,12 @@ class Replace : public hftokenizers::tokenizer::Normalizer {
  public:
   Replace(std::wstring& pattern, std::wstring& content);
   void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
+
  private:
   std::wstring& pattern;
   std::wstring& content;
 };
 
-}  // namespace normalizers
+}   // namespace normalizers
 
-}  // namespace hftokenizers
+}   // namespace hftokenizers

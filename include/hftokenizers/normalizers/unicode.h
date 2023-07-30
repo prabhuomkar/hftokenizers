@@ -2,7 +2,9 @@
 #pragma once
 
 #include <unicode/unorm.h>
+
 #include <string>
+
 #include "hftokenizers/tokenizer/normalizer.h"
 
 namespace hftokenizers {
@@ -43,6 +45,6 @@ class Nmt : public hftokenizers::tokenizer::Normalizer {
   void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
 };
 
-}  // namespace normalizers
+}   // namespace normalizers
 
-}  // namespace hftokenizers
+}   // namespace hftokenizers

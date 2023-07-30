@@ -1,12 +1,13 @@
+#include <hftokenizers/normalizers/bert.h>
+#include <hftokenizers/normalizers/prepend.h>
+#include <hftokenizers/normalizers/replace.h>
+#include <hftokenizers/normalizers/strip.h>
+#include <hftokenizers/normalizers/unicode.h>
+#include <hftokenizers/normalizers/utils.h>
+#include <hftokenizers/tokenizer/normalizer.h>
+
 #include <iostream>
 #include <vector>
-#include <hftokenizers/tokenizer/normalizer.h>
-#include <hftokenizers/normalizers/utils.h>
-#include <hftokenizers/normalizers/prepend.h>
-#include <hftokenizers/normalizers/strip.h>
-#include <hftokenizers/normalizers/replace.h>
-#include <hftokenizers/normalizers/unicode.h>
-#include <hftokenizers/normalizers/bert.h>
 
 using namespace hftokenizers::normalizers;
 using namespace hftokenizers::tokenizer;
@@ -68,7 +69,9 @@ int main() {
   sa.normalize(normalized);
   std::cout << normalized.get() << std::endl;
   // sequence
-  original = L"Cụ thể, bạn sẽ tham gia một nhóm các giám đốc điều hành tổ chức, các nhà lãnh đạo doanh nghiệp, các học giả, chuyên gia phát triển và tình nguyện viên riêng biệt trong lĩnh vực phi lợi nhuận…";
+  original =
+      L"Cụ thể, bạn sẽ tham gia một nhóm các giám đốc điều hành tổ chức, các nhà lãnh đạo doanh nghiệp, các học giả, "
+      L"chuyên gia phát triển và tình nguyện viên riêng biệt trong lĩnh vực phi lợi nhuận…";
   normalized = NormalizedString(original);
   std::vector<Normalizer*> normalizers;
   normalizers.push_back(&nfkd);

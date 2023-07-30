@@ -1,18 +1,20 @@
 // Copyright 2023 Omkar Prabhu
+#include "hftokenizers/normalizers/unicode.h"
+
 #include <unicode/normlzr.h>
 #include <unicode/uchar.h>
 #include <unicode/unistr.h>
+
+#include <codecvt>
 #include <iostream>
 #include <string>
-#include <codecvt>
-#include "hftokenizers/normalizers/unicode.h"
 
 hftokenizers::normalizers::NFC::NFC() {}
 
 std::wstring unicodeNormalization(std::wstring& input, UNormalizationMode mode) {
   UErrorCode status = U_ZERO_ERROR;
-  icu::UnicodeString uInput = icu::UnicodeString::fromUTF32(
-    reinterpret_cast<const UChar32*>(input.c_str()), input.length());
+  icu::UnicodeString uInput =
+      icu::UnicodeString::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()), input.length());
   icu::UnicodeString uNormalizedInput;
   icu::Normalizer::normalize(uInput, mode, 0, uNormalizedInput, status);
   std::wstring normalizedInput;
@@ -54,9 +56,8 @@ hftokenizers::normalizers::Nmt::Nmt() {}
 void hftokenizers::normalizers::Nmt::normalize(hftokenizers::tokenizer::NormalizedString& input) {
   std::wstring normalizedInput;
   for (unsigned char c : input.getNormalized()) {
-    if ((c >= 0x0001 && c <= 0x0008) || (c >= 0x000E && c <= 0x001F) ||
-      c == 0x000B || c == 0x007F || c == 0x008F || c == 0x009F
-    ) {
+    if ((c >= 0x0001 && c <= 0x0008) || (c >= 0x000E && c <= 0x001F) || c == 0x000B || c == 0x007F || c == 0x008F ||
+        c == 0x009F) {
       normalizedInput += ' ';
     } else {
       normalizedInput += c;

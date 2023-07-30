@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+
 #include "hftokenizers/tokenizer/normalizer.h"
 
 namespace hftokenizers {
@@ -10,12 +11,12 @@ namespace normalizers {
 
 class BertNormalizer : public hftokenizers::tokenizer::Normalizer {
  public:
-  BertNormalizer(bool cleanText, bool handleChineseChars,
-                 bool stripAccents, bool lowercase);
+  BertNormalizer(bool cleanText, bool handleChineseChars, bool stripAccents, bool lowercase);
   void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
   friend bool isWhitespace(wchar_t c);
   friend bool isControl(wchar_t c);
   friend bool isChineseChar(wchar_t c);
+
  private:
   bool cleanText = true;
   bool handleChineseChars = true;
@@ -25,6 +26,6 @@ class BertNormalizer : public hftokenizers::tokenizer::Normalizer {
   void doHandleChineseChars(hftokenizers::tokenizer::NormalizedString& input);
 };
 
-}  // namespace normalizers
+}   // namespace normalizers
 
-}  // namespace hftokenizers
+}   // namespace hftokenizers
