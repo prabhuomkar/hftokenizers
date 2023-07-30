@@ -19,6 +19,7 @@ int main() {
   Lowercase lowercase;
   lowercase.normalize(normalized);
   std::cout << normalized.get() << std::endl;
+
   // prepend
   original = L"HUGGINGFACE TOKENIZERS";
   normalized = NormalizedString(original);
@@ -26,12 +27,21 @@ int main() {
   Prepend prepend(prepender);
   prepend.normalize(normalized);
   std::cout << normalized.get() << std::endl;
+
   // strip
   original = L"  HUGGINGFACE TOKENIZERS   ";
   normalized = NormalizedString(original);
   Strip strip(true, true);
   strip.normalize(normalized);
   std::cout << normalized.get() << std::endl;
+
+  // strip accents
+  original = L"Me llamó";
+  normalized = NormalizedString(original);
+  StripAccents sa;
+  sa.normalize(normalized);
+  std::cout << normalized.get() << std::endl;
+
   // replace
   original = L"HUGGINGFACE 'TOKEN'IZERS";
   normalized = NormalizedString(original);
@@ -40,13 +50,14 @@ int main() {
   Replace replace(replaceWhat, replaceWith);
   replace.normalize(normalized);
   std::cout << normalized.get() << std::endl;
+
   // unicode
   original = L"\ufb01";
   normalized = NormalizedString(original);
   NFC nfc;
   nfc.normalize(normalized);
   std::cout << normalized.get() << std::endl;
-  original = L"\ufb01";
+  original = L"élégant";
   normalized = NormalizedString(original);
   NFD nfd;
   nfd.normalize(normalized);
@@ -65,9 +76,7 @@ int main() {
   normalized = NormalizedString(original);
   nfkd.normalize(normalized);
   std::cout << normalized.get() << std::endl;
-  StripAccents sa;
-  sa.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
+
   // sequence
   original =
       L"Cụ thể, bạn sẽ tham gia một nhóm các giám đốc điều hành tổ chức, các nhà lãnh đạo doanh nghiệp, các học giả, "
@@ -80,11 +89,21 @@ int main() {
   Sequence seq(normalizers);
   seq.normalize(normalized);
   std::cout << normalized.get() << std::endl;
+  original = L"ậ…";
+  normalized = NormalizedString(original);
+  seq.normalize(normalized);
+  std::cout << normalized.get() << std::endl;
+  original = L"e\u0304\u0304\u0304o";
+  normalized = NormalizedString(original);
+  seq.normalize(normalized);
+  std::cout << normalized.get() << std::endl;
+
   // bert
   original = L"Héllò hôw are ü?";
   normalized = NormalizedString(original);
   BertNormalizer bert(true, true, true, true);
   bert.normalize(normalized);
   std::cout << normalized.get() << std::endl;
+
   return 0;
 }
