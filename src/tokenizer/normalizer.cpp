@@ -5,22 +5,19 @@
 #include <iostream>
 #include <string>
 
-hftokenizers::tokenizer::NormalizedString::NormalizedString(std::wstring& original)
-    : original(original), normalized(original) {}
+using namespace hftokenizers::tokenizer;
 
-std::string hftokenizers::tokenizer::NormalizedString::get() {
+NormalizedString::NormalizedString(std::wstring& original) : original(original), normalized(original) {}
+
+std::string NormalizedString::get() {
   std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
   return converter.to_bytes(original);
 }
 
-std::wstring& hftokenizers::tokenizer::NormalizedString::getOriginal() { return original; }
+std::wstring& NormalizedString::getOriginal() { return original; }
 
-std::wstring& hftokenizers::tokenizer::NormalizedString::getNormalized() { return normalized; }
+std::wstring& NormalizedString::getNormalized() { return normalized; }
 
-void hftokenizers::tokenizer::NormalizedString::setNormalized(std::wstring& newNormalized) {
-  normalized = newNormalized;
-}
+void NormalizedString::setNormalized(std::wstring& newNormalized) { normalized = newNormalized; }
 
-void hftokenizers::tokenizer::Normalizer::normalize(hftokenizers::tokenizer::NormalizedString& input) {
-  std::cout << input.get() << std::endl;
-}
+void Normalizer::normalize(NormalizedString& input) { std::cout << input.get() << std::endl; }

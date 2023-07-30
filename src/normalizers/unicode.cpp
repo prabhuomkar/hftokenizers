@@ -9,7 +9,10 @@
 #include <iostream>
 #include <string>
 
-hftokenizers::normalizers::NFC::NFC() {}
+using namespace hftokenizers::tokenizer;
+using namespace hftokenizers::normalizers;
+
+NFC::NFC() {}
 
 std::wstring unicodeNormalization(std::wstring& input, UNormalizationMode mode) {
   UErrorCode status = U_ZERO_ERROR;
@@ -25,35 +28,35 @@ std::wstring unicodeNormalization(std::wstring& input, UNormalizationMode mode) 
   return normalizedInput;
 }
 
-void hftokenizers::normalizers::NFC::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+void NFC::normalize(NormalizedString& input) {
   std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFC);
   input.setNormalized(normalizedInput);
 }
 
-hftokenizers::normalizers::NFKC::NFKC() {}
+NFKC::NFKC() {}
 
-void hftokenizers::normalizers::NFKC::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+void NFKC::normalize(NormalizedString& input) {
   std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFKC);
   input.setNormalized(normalizedInput);
 }
 
-hftokenizers::normalizers::NFD::NFD() {}
+NFD::NFD() {}
 
-void hftokenizers::normalizers::NFD::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+void NFD::normalize(NormalizedString& input) {
   std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFD);
   input.setNormalized(normalizedInput);
 }
 
-hftokenizers::normalizers::NFKD::NFKD() {}
+NFKD::NFKD() {}
 
-void hftokenizers::normalizers::NFKD::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+void NFKD::normalize(NormalizedString& input) {
   std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFKD);
   input.setNormalized(normalizedInput);
 }
 
-hftokenizers::normalizers::Nmt::Nmt() {}
+Nmt::Nmt() {}
 
-void hftokenizers::normalizers::Nmt::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+void Nmt::normalize(NormalizedString& input) {
   std::wstring normalizedInput;
   for (unsigned char c : input.getNormalized()) {
     if ((c >= 0x0001 && c <= 0x0008) || (c >= 0x000E && c <= 0x001F) || c == 0x000B || c == 0x007F || c == 0x008F ||

@@ -5,9 +5,12 @@
 #include <regex>
 #include <string>
 
-hftokenizers::normalizers::Prepend::Prepend(std::wstring& prepend) : prepend(prepend) {}
+using namespace hftokenizers::tokenizer;
+using namespace hftokenizers::normalizers;
 
-void hftokenizers::normalizers::Prepend::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+Prepend::Prepend(std::wstring& prepend) : prepend(prepend) {}
+
+void Prepend::normalize(NormalizedString& input) {
   std::wstring normalizedInput;
   std::wstring currentWord;
   size_t startPos = 0;

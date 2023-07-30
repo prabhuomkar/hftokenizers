@@ -13,8 +13,10 @@
 #include "hftokenizers/normalizers/unicode.h"
 #include "hftokenizers/normalizers/utils.h"
 
-hftokenizers::normalizers::BertNormalizer::BertNormalizer(bool cleanText, bool handleChineseChars, bool stripAccents,
-                                                          bool lowercase)
+using namespace hftokenizers::tokenizer;
+using namespace hftokenizers::normalizers;
+
+BertNormalizer::BertNormalizer(bool cleanText, bool handleChineseChars, bool stripAccents, bool lowercase)
     : cleanText(cleanText), handleChineseChars(handleChineseChars), stripAccents(stripAccents), lowercase(lowercase) {}
 
 bool isWhitespace(wchar_t c) {
@@ -47,7 +49,7 @@ bool isChineseChar(wchar_t c) {
          (uChar32 >= 0xF900 && uChar32 <= 0xFAFF) || (uChar32 >= 0x2F800 && uChar32 <= 0x2FA1F);
 }
 
-void hftokenizers::normalizers::BertNormalizer::doCleanText(hftokenizers::tokenizer::NormalizedString &input) {
+void BertNormalizer::doCleanText(NormalizedString &input) {
   input.getNormalized().erase(std::remove_if(input.getNormalized().begin(), input.getNormalized().end(),
                                              [](wchar_t c) { return c == L'\0' || c == L'\uFFFD' || isControl(c); }),
                               input.getNormalized().end());
@@ -55,7 +57,7 @@ void hftokenizers::normalizers::BertNormalizer::doCleanText(hftokenizers::tokeni
                  [](wchar_t c) { return isWhitespace(c) ? ' ' : c; });
 }
 
-void hftokenizers::normalizers::BertNormalizer::doHandleChineseChars(hftokenizers::tokenizer::NormalizedString &input) {
+void BertNormalizer::doHandleChineseChars(NormalizedString &input) {
   std::vector<std::pair<wchar_t, int>> newChars;
   for (wchar_t c : input.getNormalized()) {
     if (isChineseChar(c)) {
@@ -80,7 +82,7 @@ void hftokenizers::normalizers::BertNormalizer::doHandleChineseChars(hftokenizer
   }
 }
 
-void hftokenizers::normalizers::BertNormalizer::normalize(hftokenizers::tokenizer::NormalizedString &input) {
+void BertNormalizer::normalize(NormalizedString &input) {
   if (cleanText) {
     doCleanText(input);
   }
@@ -88,7 +90,7 @@ void hftokenizers::normalizers::BertNormalizer::normalize(hftokenizers::tokenize
     doHandleChineseChars(input);
   }
   if (stripAccents) {
-    hftokenizers::normalizers::NFD nfd;
+    NFD nfd;
     nfd.normalize(input);
     std::wstring normalizedInput;
     for (wchar_t c : input.getNormalized()) {
@@ -100,7 +102,7 @@ void hftokenizers::normalizers::BertNormalizer::normalize(hftokenizers::tokenize
     input.setNormalized(normalizedInput);
   }
   if (lowercase) {
-    hftokenizers::normalizers::Lowercase lowercase;
+    Lowercase lowercase;
     lowercase.normalize(input);
   }
 }

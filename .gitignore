@@ -48,3 +48,4 @@ _deps
 .DS_Store
 .vscode
 build
+example

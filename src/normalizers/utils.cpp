@@ -7,22 +7,22 @@
 
 #include "hftokenizers/tokenizer/normalizer.h"
 
-hftokenizers::normalizers::Sequence::Sequence(std::vector<hftokenizers::tokenizer::Normalizer*>& normalizers)
-    : normalizers(normalizers) {}
+using namespace hftokenizers::tokenizer;
+using namespace hftokenizers::normalizers;
 
-std::vector<hftokenizers::tokenizer::Normalizer*> hftokenizers::normalizers::Sequence::getNormalizers() {
-  return normalizers;
-}
+Sequence::Sequence(std::vector<Normalizer*>& normalizers) : normalizers(normalizers) {}
 
-void hftokenizers::normalizers::Sequence::normalize(hftokenizers::tokenizer::NormalizedString& input) {
-  for (hftokenizers::tokenizer::Normalizer* normalizer : normalizers) {
+std::vector<Normalizer*> Sequence::getNormalizers() { return normalizers; }
+
+void Sequence::normalize(NormalizedString& input) {
+  for (Normalizer* normalizer : normalizers) {
     normalizer->normalize(input);
   }
 }
 
-hftokenizers::normalizers::Lowercase::Lowercase() {}
+Lowercase::Lowercase() {}
 
-void hftokenizers::normalizers::Lowercase::normalize(hftokenizers::tokenizer::NormalizedString& input) {
+void Lowercase::normalize(NormalizedString& input) {
   std::wstring normalizedInput;
   for (int i = 0; i < input.getNormalized().length(); i++) {
     normalizedInput.push_back(tolower(input.getNormalized()[i]));
