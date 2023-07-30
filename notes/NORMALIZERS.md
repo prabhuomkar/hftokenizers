@@ -10,13 +10,16 @@ can then be fed into a model without losing its meaning.
 ## Types
 
 ### Sequence
-Allows concatenating multiple other Normalizer as a Sequence which run in the given order.
+Allows defining multiple normalizers as a sequence which runs in the given order.
 
 ### Lowercase
-Converts all the words into lowercase.
+Converts all the uppercase characters to lowercase.
 
 ### Strip
-Strips whitespaces from left and right side.
+Removes whitespaces from specific sides i.e. left, right or both.
+
+## StripAccents
+Removes all accent symbols in unicode to be used with NFD for consistency.
 
 ### Replace
 Replaces all the matching occurences of regex pattern with the new content.
