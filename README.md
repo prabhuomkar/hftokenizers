@@ -31,3 +31,6 @@ g++ --std=c++17 -o example example.cpp -Iinclude/ -I<icu4c include directory> -L
 - Demonstrate an example of running a traced/scripted HuggingFace model with tokenizer and 
 run in a C++ environment without any Python dependencies.
 - Run some benchmarks to compare performance with Rust version and improve C++ version (_I see you FastTokenizer_)
+
+## License
+This project is licensed under [Apache License 2.0](LICENSE).
