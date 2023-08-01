@@ -15,9 +15,9 @@ Strip::Strip(bool stripLeft, bool stripRight) : stripLeft(stripLeft), stripRight
 
 void Strip::stripWhitespaces(std::wstring& str, bool stripLeft) {
   if (stripLeft) {
-    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char ch) { return !std::isspace(ch); }));
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char ch) { return !std::iswspace(ch); }));
   } else {
-    str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char ch) { return !std::isspace(ch); }).base(),
+    str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char ch) { return !std::iswspace(ch); }).base(),
               str.end());
   }
 }

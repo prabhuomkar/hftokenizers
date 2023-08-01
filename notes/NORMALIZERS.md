@@ -24,7 +24,7 @@ Removes whitespaces from specific sides i.e. left, right or both.
 Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/normalizers/strip.rs)  
 Implementation Source: [C++](../src/normalizers/strip.cpp)
 
-## StripAccents
+### StripAccents
 Removes all accent symbols in unicode to be used with NFD for consistency.  
 Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/normalizers/strip.rs)  
 Implementation Source: [C++](../src/normalizers/strip.cpp)
