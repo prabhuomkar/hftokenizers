@@ -11,13 +11,13 @@ namespace normalizers {
 
 class Strip : public hftokenizers::tokenizer::Normalizer {
  public:
-  Strip(bool stripLeft, bool stripRight);
+  Strip(bool strip_left, bool strip_right);
   void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
 
  private:
-  bool stripLeft;
-  bool stripRight;
-  void stripWhitespaces(std::wstring& str, bool stripLeft);
+  bool strip_left;
+  bool strip_right;
+  void strip_whitespaces(std::wstring& str, bool strip_left);
 };
 
 class StripAccents : public hftokenizers::tokenizer::Normalizer {
@@ -26,7 +26,7 @@ class StripAccents : public hftokenizers::tokenizer::Normalizer {
   void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
 
  private:
-  bool isCombiningMark(wchar_t c);
+  bool is_combining_mark(wchar_t c);
 };
 
 }   // namespace normalizers

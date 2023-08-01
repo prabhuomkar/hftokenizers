@@ -10,16 +10,16 @@
 #include <string>
 #include <vector>
 
-#include "hftokenizers/normalizers/unicode.h"
-#include "hftokenizers/normalizers/utils.h"
-
-using namespace hftokenizers::tokenizer;
 using namespace hftokenizers::normalizers;
+using namespace hftokenizers::tokenizer;
 
-BertNormalizer::BertNormalizer(bool cleanText, bool handleChineseChars, bool stripAccents, bool lowercase)
-    : cleanText(cleanText), handleChineseChars(handleChineseChars), stripAccents(stripAccents), lowercase(lowercase) {}
+BertNormalizer::BertNormalizer(bool clean_text, bool handle_chinese_chars, bool strip_accents, bool lowercase)
+    : clean_text(clean_text),
+      handle_chinese_chars(handle_chinese_chars),
+      strip_accents(strip_accents),
+      lowercase(lowercase) {}
 
-bool isWhitespace(wchar_t c) {
+bool is_whitespace(wchar_t c) {
   switch (c) {
     case L'\t':
     case L'\n':
@@ -30,7 +30,7 @@ bool isWhitespace(wchar_t c) {
   }
 }
 
-bool isControl(wchar_t c) {
+bool is_control(wchar_t c) {
   switch (c) {
     case L'\t':
     case L'\n':
@@ -41,7 +41,7 @@ bool isControl(wchar_t c) {
   }
 }
 
-bool isChineseChar(wchar_t c) {
+bool is_chinese_char(wchar_t c) {
   UChar32 uChar32 = static_cast<UChar32>(c);
   return (uChar32 >= 0x4E00 && uChar32 <= 0x9FFF) || (uChar32 >= 0x3400 && uChar32 <= 0x4DBF) ||
          (uChar32 >= 0x20000 && uChar32 <= 0x2A6DF) || (uChar32 >= 0x2A700 && uChar32 <= 0x2B73F) ||
@@ -49,18 +49,18 @@ bool isChineseChar(wchar_t c) {
          (uChar32 >= 0xF900 && uChar32 <= 0xFAFF) || (uChar32 >= 0x2F800 && uChar32 <= 0x2FA1F);
 }
 
-void BertNormalizer::doCleanText(NormalizedString &input) {
-  input.getNormalized().erase(std::remove_if(input.getNormalized().begin(), input.getNormalized().end(),
-                                             [](wchar_t c) { return c == L'\0' || c == L'\uFFFD' || isControl(c); }),
-                              input.getNormalized().end());
-  std::transform(input.getNormalized().begin(), input.getNormalized().end(), input.getNormalized().begin(),
-                 [](wchar_t c) { return isWhitespace(c) ? ' ' : c; });
+void BertNormalizer::do_clean_text(NormalizedString &input) {
+  input.get_normalized().erase(std::remove_if(input.get_normalized().begin(), input.get_normalized().end(),
+                                              [](wchar_t c) { return c == L'\0' || c == L'\uFFFD' || is_control(c); }),
+                               input.get_normalized().end());
+  std::transform(input.get_normalized().begin(), input.get_normalized().end(), input.get_normalized().begin(),
+                 [](wchar_t c) { return is_whitespace(c) ? ' ' : c; });
 }
 
-void BertNormalizer::doHandleChineseChars(NormalizedString &input) {
+void BertNormalizer::do_handle_chinese_chars(NormalizedString &input) {
   std::vector<std::pair<wchar_t, int>> newChars;
-  for (wchar_t c : input.getNormalized()) {
-    if (isChineseChar(c)) {
+  for (wchar_t c : input.get_normalized()) {
+    if (is_chinese_char(c)) {
       newChars.emplace_back(L' ', 0);
       newChars.emplace_back(c, 1);
       newChars.emplace_back(L' ', 1);
@@ -71,38 +71,36 @@ void BertNormalizer::doHandleChineseChars(NormalizedString &input) {
   size_t i = 0;
   for (const auto &change : newChars) {
     if (change.second > 0) {
-      input.getNormalized().insert(i, 1, change.first);
+      input.get_normalized().insert(i, 1, change.first);
     } else if (change.second < 0) {
       i += change.second;
-      input.getNormalized().insert(i, 1, change.first);
+      input.get_normalized().insert(i, 1, change.first);
     } else {
-      input.getNormalized()[i] = change.first;
+      input.get_normalized()[i] = change.first;
     }
     i++;
   }
 }
 
 void BertNormalizer::normalize(NormalizedString &input) {
-  if (cleanText) {
-    doCleanText(input);
+  if (clean_text) {
+    do_clean_text(input);
   }
-  if (handleChineseChars) {
-    doHandleChineseChars(input);
+  if (handle_chinese_chars) {
+    do_handle_chinese_chars(input);
   }
-  if (stripAccents) {
-    NFD nfd;
-    nfd.normalize(input);
+  if (strip_accents) {
+    input.nfd();
     std::wstring normalizedInput;
-    for (wchar_t c : input.getNormalized()) {
+    for (wchar_t c : input.get_normalized()) {
       UChar32 uChar32 = static_cast<UChar32>(c);
       if (u_charType(c) != U_NON_SPACING_MARK) {
         normalizedInput += c;
       }
     }
-    input.setNormalized(normalizedInput);
+    input.set_normalized(normalizedInput);
   }
   if (lowercase) {
-    Lowercase lowercase;
-    lowercase.normalize(input);
+    input.lowercase();
   }
 }

@@ -1,64 +1,34 @@
 // Copyright 2023 Omkar Prabhu
 #include "hftokenizers/normalizers/unicode.h"
 
-#include <unicode/normlzr.h>
-#include <unicode/uchar.h>
-#include <unicode/unistr.h>
-
 #include <codecvt>
 #include <iostream>
 #include <string>
 
-using namespace hftokenizers::tokenizer;
 using namespace hftokenizers::normalizers;
+using namespace hftokenizers::tokenizer;
 
 NFC::NFC() {}
 
-std::wstring unicodeNormalization(std::wstring& input, UNormalizationMode mode) {
-  UErrorCode status = U_ZERO_ERROR;
-  icu::UnicodeString uInput =
-      icu::UnicodeString::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()), input.length());
-  icu::UnicodeString uNormalizedInput;
-  icu::Normalizer::normalize(uInput, mode, 0, uNormalizedInput, status);
-  std::wstring normalizedInput;
-  for (int32_t i = 0; i < uNormalizedInput.length(); ++i) {
-    UChar32 c = uNormalizedInput.char32At(i);
-    normalizedInput.push_back(static_cast<wchar_t>(c));
-  }
-  return normalizedInput;
-}
-
-void NFC::normalize(NormalizedString& input) {
-  std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFC);
-  input.setNormalized(normalizedInput);
-}
+void NFC::normalize(NormalizedString& input) { input.nfc(); }
 
 NFKC::NFKC() {}
 
-void NFKC::normalize(NormalizedString& input) {
-  std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFKC);
-  input.setNormalized(normalizedInput);
-}
+void NFKC::normalize(NormalizedString& input) { input.nfkc(); }
 
 NFD::NFD() {}
 
-void NFD::normalize(NormalizedString& input) {
-  std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFD);
-  input.setNormalized(normalizedInput);
-}
+void NFD::normalize(NormalizedString& input) { input.nfd(); }
 
 NFKD::NFKD() {}
 
-void NFKD::normalize(NormalizedString& input) {
-  std::wstring normalizedInput = unicodeNormalization(input.getNormalized(), UNORM_NFKD);
-  input.setNormalized(normalizedInput);
-}
+void NFKD::normalize(NormalizedString& input) { input.nfkd(); }
 
 Nmt::Nmt() {}
 
 void Nmt::normalize(NormalizedString& input) {
   std::wstring normalizedInput;
-  for (unsigned char c : input.getNormalized()) {
+  for (unsigned char c : input.get_normalized()) {
     if ((c >= 0x0001 && c <= 0x0008) || (c >= 0x000E && c <= 0x001F) || c == 0x000B || c == 0x007F || c == 0x008F ||
         c == 0x009F) {
       normalizedInput += ' ';
@@ -66,9 +36,9 @@ void Nmt::normalize(NormalizedString& input) {
       normalizedInput += c;
     }
   }
-  input.setNormalized(normalizedInput);
+  input.set_normalized(normalizedInput);
   normalizedInput.clear();
-  for (unsigned char c : input.getNormalized()) {
+  for (unsigned char c : input.get_normalized()) {
     switch (c) {
       case 0x0009:
       case 0x000A:
@@ -87,5 +57,5 @@ void Nmt::normalize(NormalizedString& input) {
         break;
     }
   }
-  input.setNormalized(normalizedInput);
+  input.set_normalized(normalizedInput);
 }

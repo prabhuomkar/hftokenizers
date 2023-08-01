@@ -5,13 +5,13 @@
 #include <regex>
 #include <string>
 
-using namespace hftokenizers::tokenizer;
 using namespace hftokenizers::normalizers;
+using namespace hftokenizers::tokenizer;
 
 Replace::Replace(std::wstring& pattern, std::wstring& content) : pattern(pattern), content(content) {}
 
 void Replace::normalize(NormalizedString& input) {
-  std::wregex regexPattern(pattern);
-  std::wstring normalizedInput = std::regex_replace(input.getNormalized(), regexPattern, content);
-  input.setNormalized(normalizedInput);
+  std::wregex regex_pattern(pattern);
+  std::wstring normalizedInput = std::regex_replace(input.get_normalized(), regex_pattern, content);
+  input.set_normalized(normalizedInput);
 }

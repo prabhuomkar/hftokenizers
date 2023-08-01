@@ -7,12 +7,12 @@
 
 #include "hftokenizers/tokenizer/normalizer.h"
 
-using namespace hftokenizers::tokenizer;
 using namespace hftokenizers::normalizers;
+using namespace hftokenizers::tokenizer;
 
 Sequence::Sequence(std::vector<Normalizer*>& normalizers) : normalizers(normalizers) {}
 
-std::vector<Normalizer*> Sequence::getNormalizers() { return normalizers; }
+std::vector<Normalizer*> Sequence::get_normalizers() { return normalizers; }
 
 void Sequence::normalize(NormalizedString& input) {
   for (Normalizer* normalizer : normalizers) {
@@ -22,10 +22,4 @@ void Sequence::normalize(NormalizedString& input) {
 
 Lowercase::Lowercase() {}
 
-void Lowercase::normalize(NormalizedString& input) {
-  std::wstring normalizedInput;
-  for (int i = 0; i < input.getNormalized().length(); i++) {
-    normalizedInput.push_back(tolower(input.getNormalized()[i]));
-  }
-  input.setNormalized(normalizedInput);
-}
+void Lowercase::normalize(NormalizedString& input) { input.lowercase(); }

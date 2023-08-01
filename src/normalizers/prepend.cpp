@@ -16,14 +16,14 @@ void Prepend::normalize(NormalizedString& input) {
   size_t startPos = 0;
   size_t endPos = 0;
   while (endPos != std::wstring::npos) {
-    endPos = input.getNormalized().find(L' ', startPos);
+    endPos = input.get_normalized().find(L' ', startPos);
     if (endPos == std::wstring::npos) {
-      currentWord = input.getNormalized().substr(startPos);
+      currentWord = input.get_normalized().substr(startPos);
     } else {
-      currentWord = input.getNormalized().substr(startPos, endPos - startPos);
+      currentWord = input.get_normalized().substr(startPos, endPos - startPos);
     }
     normalizedInput += prepend + currentWord + L" ";
     startPos = endPos + 1;
   }
-  input.setNormalized(normalizedInput);
+  input.set_normalized(normalizedInput);
 }

@@ -13,7 +13,7 @@ namespace normalizers {
 class Sequence : public hftokenizers::tokenizer::Normalizer {
  public:
   explicit Sequence(std::vector<hftokenizers::tokenizer::Normalizer*>& normalizers);
-  std::vector<hftokenizers::tokenizer::Normalizer*> getNormalizers();
+  std::vector<hftokenizers::tokenizer::Normalizer*> get_normalizers();
   void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
 
  private:
