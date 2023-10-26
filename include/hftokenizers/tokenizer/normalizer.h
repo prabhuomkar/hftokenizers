@@ -10,9 +10,25 @@ namespace hftokenizers {
 
 namespace tokenizer {
 
+enum SplitDelimiterBehavior {
+  Removed,
+  Isolated,
+  MergedWithPrevious,
+  MergedWithNext,
+  Contiguous,
+};
+
 class NormalizedString {
  public:
-  explicit NormalizedString(std::wstring& original);
+  explicit NormalizedString(const std::wstring& original);
+  NormalizedString& operator=(const NormalizedString& other) {
+    if (this == &other) {
+      return *this;
+    }
+    original = other.original;
+    normalized = other.normalized;
+    return *this;
+  }
   std::string get();
   std::wstring& get_original();
   std::wstring& get_normalized();
@@ -23,16 +39,11 @@ class NormalizedString {
   void nfkd();
   void lowercase();
   friend std::wstring unicode_normalization(std::wstring& input, UNormalizationMode mode);
-  NormalizedString& operator=(const NormalizedString& other) {
-    if (this == &other) {
-      return *this;
-    }
-    return *this;
-  }
-
+  std::vector<NormalizedString> split(wchar_t char_delimiter, SplitDelimiterBehavior split_delimiter_behavior);
  private:
-  std::wstring& original;
-  std::wstring& normalized;
+  std::wstring original;
+  std::wstring normalized;
+  int original_shift;
 };
 
 class Normalizer {

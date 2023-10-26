@@ -16,12 +16,15 @@ include_directories(
 
 add_library(hftokenizers SHARED
   src/tokenizer/normalizer.cpp
+  src/tokenizer/pre_tokenizer.cpp
   src/normalizers/bert.cpp
   src/normalizers/prepend.cpp
   src/normalizers/replace.cpp
   src/normalizers/strip.cpp
   src/normalizers/unicode.cpp
   src/normalizers/utils.cpp
+  src/pre_tokenizers/delimiter.cpp
+  src/pre_tokenizers/sequence.cpp
 )
 
 target_link_libraries(hftokenizers PRIVATE ICU::uc ICU::i18n)

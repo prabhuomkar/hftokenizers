@@ -7,15 +7,17 @@
 
 #include <codecvt>
 #include <iostream>
+#include <regex>
 #include <string>
+#include <vector>
 
 using namespace hftokenizers::tokenizer;
 
-NormalizedString::NormalizedString(std::wstring& original) : original(original), normalized(original) {}
+NormalizedString::NormalizedString(const std::wstring& original) : original(original), normalized(original) {}
 
 std::string NormalizedString::get() {
   std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-  return converter.to_bytes(original);
+  return converter.to_bytes(normalized);
 }
 
 std::wstring& NormalizedString::get_original() { return original; }
@@ -24,18 +26,18 @@ std::wstring& NormalizedString::get_normalized() { return normalized; }
 
 void NormalizedString::set_normalized(std::wstring& new_normalized) { normalized = new_normalized; }
 
-std::wstring unicode_normalization(std::wstring& input, UNormalizationMode mode) {
+std::wstring unicode_normalization(std::wstring& input, UNormalizationMode split_delimiter_behaviorer_split_delimit) {
   UErrorCode status = U_ZERO_ERROR;
   icu::UnicodeString uInput =
       icu::UnicodeString::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()), input.length());
   icu::UnicodeString uNormalizedInput;
-  icu::Normalizer::normalize(uInput, mode, 0, uNormalizedInput, status);
-  std::wstring normalizedInput;
-  for (int32_t i = 0; i < uNormalizedInput.length(); ++i) {
+  icu::Normalizer::normalize(uInput, split_delimiter_behaviorer_split_delimit, 0, uNormalizedInput, status);
+  std::wstring normalized_input;
+  for (int i = 0; i < uNormalizedInput.length(); ++i) {
     UChar32 c = uNormalizedInput.char32At(i);
-    normalizedInput.push_back(static_cast<wchar_t>(c));
+    normalized_input.push_back(static_cast<wchar_t>(c));
   }
-  return normalizedInput;
+  return normalized_input;
 }
 
 void NormalizedString::nfc() { normalized = unicode_normalization(normalized, UNORM_NFC); }
@@ -52,4 +54,31 @@ void NormalizedString::lowercase() {
   }
 }
 
-void Normalizer::normalize(NormalizedString& input) { std::cout << input.get() << std::endl; }
+std::vector<NormalizedString> NormalizedString::split(wchar_t char_delimiter,
+                                                      SplitDelimiterBehavior split_delimiter_behavior) {
+  std::vector<NormalizedString> result;
+  std::wstring char_delimiter_str = std::wstring(1, char_delimiter);
+  std::wregex regex(char_delimiter_str);
+  int curr_offset = 0;
+  for (std::wsregex_iterator it = std::wsregex_iterator(normalized.begin(), normalized.end(), regex);
+       it != std::wsregex_iterator(); ++it) {
+    std::wstring curr_normalized = normalized.substr(curr_offset, it->position() - curr_offset);
+    if (curr_normalized.length() > 0) {
+      result.push_back(NormalizedString(curr_normalized));
+    }
+    if (split_delimiter_behavior == SplitDelimiterBehavior::Isolated) {
+      result.push_back(NormalizedString(char_delimiter_str));
+    } else if (split_delimiter_behavior == SplitDelimiterBehavior::Removed) {
+      std::wstring char_delimiter_str = L"";
+      result.push_back(NormalizedString(char_delimiter_str));
+    }
+    curr_offset = it->position() + 1;
+  }
+  if (curr_offset < normalized.length()) {
+    std::wstring remaining_normalized = normalized.substr(curr_offset, normalized.length() - curr_offset);
+    result.push_back(NormalizedString(remaining_normalized));
+  }
+  return result;
+}
+
+void Normalizer::normalize(NormalizedString& input) {}

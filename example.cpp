@@ -4,106 +4,109 @@
 #include <hftokenizers/normalizers/strip.h>
 #include <hftokenizers/normalizers/unicode.h>
 #include <hftokenizers/normalizers/utils.h>
+#include <hftokenizers/pre_tokenizers/delimiter.h>
 #include <hftokenizers/tokenizer/normalizer.h>
+#include <hftokenizers/tokenizer/pre_tokenizer.h>
 
 #include <iostream>
 #include <vector>
 
+using namespace std;
 using namespace hftokenizers::normalizers;
+using namespace hftokenizers::pre_tokenizers;
 using namespace hftokenizers::tokenizer;
 
 int main() {
+  /*************************************************************/
+  /******************* N O R M A L I Z E R S *******************/
+  /*************************************************************/
   // lowercase
-  std::wstring original = L"HUGGINGFACE TOKENIZERS";
-  NormalizedString normalized = NormalizedString(original);
+  NormalizedString normalized = NormalizedString(L"HUGGINGFACE TOKENIZERS");
   Lowercase lowercase;
   lowercase.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
+  cout << normalized.get() << endl;
 
   // prepend
-  original = L"HUGGINGFACE TOKENIZERS";
-  normalized = NormalizedString(original);
-  std::wstring prepender = L"_";
+  normalized = NormalizedString(L"HUGGINGFACE TOKENIZERS");
+  wstring prepender = L"_";
   Prepend prepend(prepender);
   prepend.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
+  cout << normalized.get() << endl;
 
   // strip
-  original = L"  HUGGINGFACE TOKENIZERS   ";
-  normalized = NormalizedString(original);
+  normalized = NormalizedString(L"  HUGGINGFACE TOKENIZERS   ");
   Strip strip(true, true);
   strip.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
+  cout << normalized.get() << endl;
 
   // strip accents
-  original = L"Me llamó";
-  normalized = NormalizedString(original);
+  normalized = NormalizedString(L"Me llamó");
   StripAccents sa;
   sa.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
+  cout << normalized.get() << endl;
 
   // replace
-  original = L"HUGGINGFACE 'TOKEN'IZERS";
-  normalized = NormalizedString(original);
-  std::wstring replaceWhat = L"'";
-  std::wstring replaceWith = L"\"";
+  normalized = NormalizedString(L"HUGGINGFACE 'TOKEN'IZERS");
+  wstring replaceWhat = L"'";
+  wstring replaceWith = L"\"";
   Replace replace(replaceWhat, replaceWith);
   replace.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
+  cout << normalized.get() << endl;
 
   // unicode
-  original = L"\ufb01";
-  normalized = NormalizedString(original);
+  normalized = NormalizedString(L"\ufb01");
   NFC nfc;
   nfc.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
-  original = L"élégant";
-  normalized = NormalizedString(original);
+  cout << normalized.get() << endl;
+  normalized = NormalizedString(L"élégant");
   NFD nfd;
   nfd.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
-  original = L"\ufb01";
-  normalized = NormalizedString(original);
+  cout << normalized.get() << endl;
+  normalized = NormalizedString(L"\ufb01");
   NFKC nfkc;
   nfkc.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
-  original = L"\ufb01";
-  normalized = NormalizedString(original);
+  cout << normalized.get() << endl;
+  normalized = NormalizedString(L"\ufb01");
   NFKD nfkd;
   nfkd.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
-  original = L"Me llamó";
-  normalized = NormalizedString(original);
+  cout << normalized.get() << endl;
+  normalized = NormalizedString(L"Me llamó");
   nfkd.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
+  cout << normalized.get() << endl;
 
   // sequence
-  original =
-      L"Cụ thể, bạn sẽ tham gia một nhóm các giám đốc điều hành tổ chức, các nhà lãnh đạo doanh nghiệp, các học giả, "
-      L"chuyên gia phát triển và tình nguyện viên riêng biệt trong lĩnh vực phi lợi nhuận…";
-  normalized = NormalizedString(original);
-  std::vector<Normalizer*> normalizers;
+  normalized = NormalizedString(
+      L"Cụ thể, bạn sẽ tham gia một nhóm các giám đốc điều hành tổ chức, các nhà lãnh đạo doanh nghiệp, các học giả,"
+      L"chuyên gia phát triển và tình nguyện viên riêng biệt trong lĩnh vực phi lợi nhuận…");
+  vector<Normalizer*> normalizers;
   normalizers.push_back(&nfkd);
   normalizers.push_back(&sa);
   normalizers.push_back(&lowercase);
   Sequence seq(normalizers);
   seq.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
-  original = L"ậ…";
-  normalized = NormalizedString(original);
+  cout << normalized.get() << endl;
+  normalized = NormalizedString(L"ậ…");
   seq.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
-  original = L"e\u0304\u0304\u0304o";
-  normalized = NormalizedString(original);
+  cout << normalized.get() << endl;
+  normalized = NormalizedString(L"e\u0304\u0304\u0304o");
   seq.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
+  cout << normalized.get() << endl;
 
   // bert
-  original = L"Héllò hôw are ü?";
-  normalized = NormalizedString(original);
+  normalized = NormalizedString(L"Héllò hôw are ü?");
   BertNormalizer bert(true, true, true, true);
   bert.normalize(normalized);
-  std::cout << normalized.get() << std::endl;
+  cout << normalized.get() << endl;
+
+  /*************************************************************/
+  /**************** P R E   T O K E N I Z E R S ****************/
+  /*************************************************************/
+  // delimiter
+  PreTokenizedString pre_tokenized = PreTokenizedString(L"the-final--countdown");
+  Delimiter delimiter = Delimiter('-');
+  delimiter.pre_tokenize(pre_tokenized);
+  auto result = pre_tokenized.get_splits();
+  cout << result.size() << endl;
 
   return 0;
 }

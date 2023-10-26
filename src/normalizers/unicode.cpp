@@ -27,17 +27,17 @@ void NFKD::normalize(NormalizedString& input) { input.nfkd(); }
 Nmt::Nmt() {}
 
 void Nmt::normalize(NormalizedString& input) {
-  std::wstring normalizedInput;
+  std::wstring normalized_input;
   for (unsigned char c : input.get_normalized()) {
     if ((c >= 0x0001 && c <= 0x0008) || (c >= 0x000E && c <= 0x001F) || c == 0x000B || c == 0x007F || c == 0x008F ||
         c == 0x009F) {
-      normalizedInput += ' ';
+      normalized_input += ' ';
     } else {
-      normalizedInput += c;
+      normalized_input += c;
     }
   }
-  input.set_normalized(normalizedInput);
-  normalizedInput.clear();
+  input.set_normalized(normalized_input);
+  normalized_input.clear();
   for (unsigned char c : input.get_normalized()) {
     switch (c) {
       case 0x0009:
@@ -50,12 +50,12 @@ void Nmt::normalize(NormalizedString& input) {
       case 0x2581:
       case 0xFEFF:
       case 0xFFFD:
-        normalizedInput += ' ';
+        normalized_input += ' ';
         break;
       default:
-        normalizedInput += c;
+        normalized_input += c;
         break;
     }
   }
-  input.set_normalized(normalizedInput);
+  input.set_normalized(normalized_input);
 }

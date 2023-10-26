@@ -40,16 +40,16 @@ StripAccents::StripAccents() {}
 
 bool StripAccents::is_combining_mark(wchar_t c) {
   UChar32 uChar32 = static_cast<UChar32>(c);
-  int32_t combiningClass = u_getCombiningClass(uChar32);
+  int combiningClass = u_getCombiningClass(uChar32);
   return combiningClass > 0;
 }
 
 void StripAccents::normalize(NormalizedString& input) {
-  std::wstring normalizedInput;
+  std::wstring normalized_input;
   for (wchar_t c : input.get_normalized()) {
     if (!is_combining_mark(c)) {
-      normalizedInput += c;
+      normalized_input += c;
     }
   }
-  input.set_normalized(normalizedInput);
+  input.set_normalized(normalized_input);
 }

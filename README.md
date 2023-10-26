@@ -27,6 +27,7 @@ g++ --std=c++17 -o example example.cpp -Iinclude/ -I<icu4c include directory> -L
 
 ## Goals
 - Not intended to be a tutorial/course of Huggingface Tokenizers 
+- Will not provide Training API but just `tokenizer.json` based tokenization  
 - Build a portable C++ version of Huggingface Tokenizers which can run with PyTorch's LibTorch C++ API
 - Demonstrate an example of running a traced/scripted HuggingFace model with tokenizer and 
 run in a C++ environment without any Python dependencies.

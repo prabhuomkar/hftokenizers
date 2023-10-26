@@ -12,6 +12,6 @@ Replace::Replace(std::wstring& pattern, std::wstring& content) : pattern(pattern
 
 void Replace::normalize(NormalizedString& input) {
   std::wregex regex_pattern(pattern);
-  std::wstring normalizedInput = std::regex_replace(input.get_normalized(), regex_pattern, content);
-  input.set_normalized(normalizedInput);
+  std::wstring normalized_input = std::regex_replace(input.get_normalized(), regex_pattern, content);
+  input.set_normalized(normalized_input);
 }

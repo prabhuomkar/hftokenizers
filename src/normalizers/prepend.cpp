@@ -11,10 +11,10 @@ using namespace hftokenizers::normalizers;
 Prepend::Prepend(std::wstring& prepend) : prepend(prepend) {}
 
 void Prepend::normalize(NormalizedString& input) {
-  std::wstring normalizedInput;
+  std::wstring normalized_input;
   std::wstring currentWord;
-  size_t startPos = 0;
-  size_t endPos = 0;
+  int startPos = 0;
+  int endPos = 0;
   while (endPos != std::wstring::npos) {
     endPos = input.get_normalized().find(L' ', startPos);
     if (endPos == std::wstring::npos) {
@@ -22,8 +22,8 @@ void Prepend::normalize(NormalizedString& input) {
     } else {
       currentWord = input.get_normalized().substr(startPos, endPos - startPos);
     }
-    normalizedInput += prepend + currentWord + L" ";
+    normalized_input += prepend + currentWord + L" ";
     startPos = endPos + 1;
   }
-  input.set_normalized(normalizedInput);
+  input.set_normalized(normalized_input);
 }

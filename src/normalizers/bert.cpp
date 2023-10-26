@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 using namespace hftokenizers::normalizers;
@@ -58,18 +59,18 @@ void BertNormalizer::do_clean_text(NormalizedString &input) {
 }
 
 void BertNormalizer::do_handle_chinese_chars(NormalizedString &input) {
-  std::vector<std::pair<wchar_t, int>> newChars;
+  std::vector<std::pair<wchar_t, int>> new_chars;
   for (wchar_t c : input.get_normalized()) {
     if (is_chinese_char(c)) {
-      newChars.emplace_back(L' ', 0);
-      newChars.emplace_back(c, 1);
-      newChars.emplace_back(L' ', 1);
+      new_chars.emplace_back(L' ', 0);
+      new_chars.emplace_back(c, 1);
+      new_chars.emplace_back(L' ', 1);
     } else {
-      newChars.emplace_back(c, 0);
+      new_chars.emplace_back(c, 0);
     }
   }
-  size_t i = 0;
-  for (const auto &change : newChars) {
+  int i = 0;
+  for (const auto &change : new_chars) {
     if (change.second > 0) {
       input.get_normalized().insert(i, 1, change.first);
     } else if (change.second < 0) {
@@ -91,14 +92,14 @@ void BertNormalizer::normalize(NormalizedString &input) {
   }
   if (strip_accents) {
     input.nfd();
-    std::wstring normalizedInput;
+    std::wstring normalized_input;
     for (wchar_t c : input.get_normalized()) {
       UChar32 uChar32 = static_cast<UChar32>(c);
       if (u_charType(c) != U_NON_SPACING_MARK) {
-        normalizedInput += c;
+        normalized_input += c;
       }
     }
-    input.set_normalized(normalizedInput);
+    input.set_normalized(normalized_input);
   }
   if (lowercase) {
     input.lowercase();
