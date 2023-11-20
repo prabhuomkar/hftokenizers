@@ -1,4 +1,4 @@
-name: hftokenizers CI
+name: C++ HuggingFace Tokenizers CI
 on:
   push:
     branches:    
