@@ -8,6 +8,7 @@
 #include <codecvt>
 #include <iostream>
 #include <string>
+#include <locale>
 
 using namespace hftokenizers::tokenizer;
 
