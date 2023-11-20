@@ -1,0 +1,32 @@
+name: hftokenizers CI
+on:
+  push:
+    branches:    
+      - master
+  pull_request:
+    branches:
+      - master
+  release:
+    types: [published]
+jobs:
+  ci:
+    name: Integration Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: |
+          wget https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-Ubuntu22.04-x64.tgz
+          sudo mkdir -p /usr/local/opt/icu4c
+          sudo tar zxvf icu4c-74_1-Ubuntu22.04-x64.tgz -C /usr/local/opt/icu4c ./icu/usr/local/ --strip-components=4
+          pip install cpplint
+      - name: Run Lint
+        run: cpplint --recursive include/ src/
+      - name: Run Build
+        run: |
+          cmake .
+          make
+      - name: Run Tests
+        run: |
+          echo "TODO(omkar): Add tests!"
