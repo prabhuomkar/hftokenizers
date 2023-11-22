@@ -10,6 +10,7 @@
 #include <regex>
 #include <string>
 #include <vector>
+#include <locale>
 
 using namespace hftokenizers::tokenizer;
 
