@@ -5,6 +5,9 @@
 #include <hftokenizers/normalizers/unicode.h>
 #include <hftokenizers/normalizers/utils.h>
 #include <hftokenizers/pre_tokenizers/delimiter.h>
+#include <hftokenizers/pre_tokenizers/digits.h>
+#include <hftokenizers/pre_tokenizers/metaspace.h>
+#include <hftokenizers/pre_tokenizers/punctuation.h>
 #include <hftokenizers/pre_tokenizers/whitespace.h>
 #include <hftokenizers/tokenizer/normalizer.h>
 #include <hftokenizers/tokenizer/pre_tokenizer.h>
@@ -118,6 +121,25 @@ int main() {
   pre_tokenized = PreTokenizedString(L"How are you doing?");
   Whitespace w = Whitespace();
   w.pre_tokenize(pre_tokenized);
+  result = pre_tokenized.get_splits();
+  cout << result.size() << endl;
+
+  // punctuation
+  pre_tokenized = PreTokenizedString(L"Hey friend!     How are you?!?");
+  Punctuation punc = Punctuation();
+  punc.pre_tokenize(pre_tokenized);
+  result = pre_tokenized.get_splits();
+  cout << result.size() << endl;
+
+  // digits
+  pre_tokenized = PreTokenizedString(L"Hey 123 friend!");
+  Digits dig = Digits(false);
+  dig.pre_tokenize(pre_tokenized);
+  result = pre_tokenized.get_splits();
+  cout << result.size() << endl;
+  pre_tokenized = PreTokenizedString(L"Hey 123 friend!");
+  dig = Digits(true);
+  dig.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
   cout << result.size() << endl;
 

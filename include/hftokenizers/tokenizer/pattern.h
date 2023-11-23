@@ -38,6 +38,15 @@ class RegexPattern : public Pattern {
   bool invert;
 };
 
+class PredicatePattern : public Pattern {
+ public:
+  explicit PredicatePattern(std::function<bool(wchar_t)> predicate);
+  std::vector<std::pair<std::pair<int, int>, bool>> find_matches(const std::wstring& inside);
+
+ private:
+  std::function<bool(wchar_t)> predicate;
+};
+
 }   // namespace tokenizer
 
 }   // namespace hftokenizers

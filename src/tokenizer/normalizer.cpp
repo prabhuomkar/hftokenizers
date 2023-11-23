@@ -60,14 +60,15 @@ void NormalizedString::lowercase() {
 /// When splitting on `'-'` for example, with input `the-final--countdown`:
 ///  - Removed => `[ "the", "", "final", "", "", "countdown" ]`
 ///  - Isolated => `[ "the", "-", "final", "-", "-", "countdown" ]`
+///  - Contiguous => `[ "the", "-", "final", "--", "countdown" ]`
 ///  - MergedWithPrevious => `[ "the-", "final-", "-", "countdown" ]`
 ///  - MergedWithNext => `[ "the", "-final", "-", "-countdown" ]`
 std::vector<NormalizedString> NormalizedString::split(Pattern& pattern,
                                                       SplitDelimiterBehavior split_delimiter_behavior) {
   std::vector<NormalizedString> result;
-  auto splits = pattern.find_matches(normalized);
+  std::vector<std::pair<std::pair<int, int>, bool>> splits = pattern.find_matches(normalized);
   if (split_delimiter_behavior == SplitDelimiterBehavior::Isolated) {
-    for (auto split : splits) {
+    for (auto& split : splits) {
       split.second = false;
     }
   } else if (split_delimiter_behavior == SplitDelimiterBehavior::Removed) {
@@ -76,10 +77,34 @@ std::vector<NormalizedString> NormalizedString::split(Pattern& pattern,
     // TODO(omkar)
   } else if (split_delimiter_behavior == SplitDelimiterBehavior::MergedWithNext) {
     // TODO(omkar)
+  } else if (split_delimiter_behavior == SplitDelimiterBehavior::Contiguous) {
+    std::vector<std::pair<std::pair<int, int>, bool>> new_splits;
+    bool prev_match = false;
+    int start = splits[0].first.first, end = splits[0].first.second;
+    for (auto split : splits) {
+      auto length = split.first.first == split.first.second ? 1 : split.first.second - split.first.first;
+      if (split.second) {
+        if (!prev_match) {
+          start = split.first.first;
+          end = split.first.second;
+          prev_match = true;
+        } else {
+          end = split.first.first != split.first.second ? split.first.second : split.first.second + 1;
+        }
+      } else {
+        if (prev_match) {
+          new_splits.emplace_back(std::make_pair(std::make_pair(start, end), false));
+        }
+        new_splits.emplace_back(std::make_pair(std::make_pair(split.first.first, split.first.second), false));
+        prev_match = false;
+      }
+    }
+    splits = new_splits;
   }
   for (auto split : splits) {
     if (!split.second) {
-      std::wstring slice = normalized.substr(split.first.first, split.first.second - split.first.first);
+      auto length = split.first.first == split.first.second ? 1 : split.first.second - split.first.first;
+      std::wstring slice = normalized.substr(split.first.first, length);
       result.push_back(NormalizedString(slice));
     } else {
       result.push_back(NormalizedString(L""));

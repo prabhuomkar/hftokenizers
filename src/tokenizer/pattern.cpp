@@ -62,3 +62,24 @@ std::vector<std::pair<std::pair<int, int>, bool>> RegexPattern::find_matches(con
   }
   return matches;
 }
+
+PredicatePattern::PredicatePattern(std::function<bool(wchar_t)> predicate) : predicate(predicate) {}
+
+std::vector<std::pair<std::pair<int, int>, bool>> PredicatePattern::find_matches(const std::wstring& inside) {
+  std::vector<std::pair<std::pair<int, int>, bool>> matches;
+  int start = 0, end = 0;
+  while (start < inside.size()) {
+    end = start;
+    while (end < inside.size() && !predicate(inside[end])) {
+      ++end;
+    }
+    if (start != end) {
+      matches.emplace_back(std::make_pair(std::make_pair(start, end), false));
+      start = end;
+    } else {
+      matches.emplace_back(std::make_pair(std::make_pair(start, end), true));
+      ++start;
+    }
+  }
+  return matches;
+}

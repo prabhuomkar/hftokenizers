@@ -26,6 +26,9 @@ add_library(hftokenizers SHARED
   src/normalizers/utils.cpp
   src/pre_tokenizers/delimiter.cpp
   src/pre_tokenizers/whitespace.cpp
+  src/pre_tokenizers/punctuation.cpp
+  src/pre_tokenizers/metaspace.cpp
+  src/pre_tokenizers/digits.cpp
   src/pre_tokenizers/sequence.cpp
 )
 
