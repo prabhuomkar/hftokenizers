@@ -26,7 +26,6 @@ class Split {
 class PreTokenizedString {
  public:
   explicit PreTokenizedString(const std::wstring& original);
-  PreTokenizedString& operator=(const PreTokenizedString& other) { return *this; }
   void split(std::function<std::vector<NormalizedString>(NormalizedString)> split_fn);
   std::vector<std::tuple<std::wstring, std::pair<int, int>, std::optional<std::vector<Token>>>> get_splits();
 

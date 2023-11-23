@@ -48,6 +48,6 @@ PreTokenizedString::get_splits() {
     result.push_back(std::make_tuple(split.normalized.get_normalized(), std::make_pair(0, 0), split.tokens));
   }
   return result;
-};
+}
 
 void PreTokenizer::pre_tokenize(PreTokenizedString& input) {}

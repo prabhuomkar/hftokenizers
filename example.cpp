@@ -5,6 +5,7 @@
 #include <hftokenizers/normalizers/unicode.h>
 #include <hftokenizers/normalizers/utils.h>
 #include <hftokenizers/pre_tokenizers/delimiter.h>
+#include <hftokenizers/pre_tokenizers/whitespace.h>
 #include <hftokenizers/tokenizer/normalizer.h>
 #include <hftokenizers/tokenizer/pre_tokenizer.h>
 
@@ -103,9 +104,21 @@ int main() {
   /*************************************************************/
   // delimiter
   PreTokenizedString pre_tokenized = PreTokenizedString(L"the-final--countdown");
-  Delimiter delimiter = Delimiter('-');
+  CharDelimiterSplit delimiter = CharDelimiterSplit('-');
   delimiter.pre_tokenize(pre_tokenized);
   auto result = pre_tokenized.get_splits();
+  cout << result.size() << endl;
+
+  // whitespace
+  pre_tokenized = PreTokenizedString(L"Hey, man, Good?");
+  WhitespaceSplit ws = WhitespaceSplit();
+  ws.pre_tokenize(pre_tokenized);
+  result = pre_tokenized.get_splits();
+  cout << result.size() << endl;
+  pre_tokenized = PreTokenizedString(L"How are you doing?");
+  Whitespace w = Whitespace();
+  w.pre_tokenize(pre_tokenized);
+  result = pre_tokenized.get_splits();
   cout << result.size() << endl;
 
   return 0;

@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "hftokenizers/tokenizer/pattern.h"
+
 namespace hftokenizers {
 
 namespace tokenizer {
@@ -21,14 +23,6 @@ enum SplitDelimiterBehavior {
 class NormalizedString {
  public:
   explicit NormalizedString(const std::wstring& original);
-  NormalizedString& operator=(const NormalizedString& other) {
-    if (this == &other) {
-      return *this;
-    }
-    original = other.original;
-    normalized = other.normalized;
-    return *this;
-  }
   std::string get();
   std::wstring& get_original();
   std::wstring& get_normalized();
@@ -39,7 +33,8 @@ class NormalizedString {
   void nfkd();
   void lowercase();
   friend std::wstring unicode_normalization(std::wstring& input, UNormalizationMode mode);
-  std::vector<NormalizedString> split(wchar_t char_delimiter, SplitDelimiterBehavior split_delimiter_behavior);
+  std::vector<NormalizedString> split(Pattern& pattern, SplitDelimiterBehavior split_delimiter_behavior);
+
  private:
   std::wstring original;
   std::wstring normalized;

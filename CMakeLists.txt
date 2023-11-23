@@ -17,6 +17,7 @@ include_directories(
 add_library(hftokenizers SHARED
   src/tokenizer/normalizer.cpp
   src/tokenizer/pre_tokenizer.cpp
+  src/tokenizer/pattern.cpp
   src/normalizers/bert.cpp
   src/normalizers/prepend.cpp
   src/normalizers/replace.cpp
@@ -24,6 +25,7 @@ add_library(hftokenizers SHARED
   src/normalizers/unicode.cpp
   src/normalizers/utils.cpp
   src/pre_tokenizers/delimiter.cpp
+  src/pre_tokenizers/whitespace.cpp
   src/pre_tokenizers/sequence.cpp
 )
 

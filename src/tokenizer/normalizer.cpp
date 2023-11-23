@@ -7,10 +7,12 @@
 
 #include <codecvt>
 #include <iostream>
+#include <locale>
 #include <regex>
 #include <string>
 #include <vector>
-#include <locale>
+
+#include "hftokenizers/tokenizer/pattern.h"
 
 using namespace hftokenizers::tokenizer;
 
@@ -55,29 +57,33 @@ void NormalizedString::lowercase() {
   }
 }
 
-std::vector<NormalizedString> NormalizedString::split(wchar_t char_delimiter,
+/// When splitting on `'-'` for example, with input `the-final--countdown`:
+///  - Removed => `[ "the", "", "final", "", "", "countdown" ]`
+///  - Isolated => `[ "the", "-", "final", "-", "-", "countdown" ]`
+///  - MergedWithPrevious => `[ "the-", "final-", "-", "countdown" ]`
+///  - MergedWithNext => `[ "the", "-final", "-", "-countdown" ]`
+std::vector<NormalizedString> NormalizedString::split(Pattern& pattern,
                                                       SplitDelimiterBehavior split_delimiter_behavior) {
   std::vector<NormalizedString> result;
-  std::wstring char_delimiter_str = std::wstring(1, char_delimiter);
-  std::wregex regex(char_delimiter_str);
-  int curr_offset = 0;
-  for (std::wsregex_iterator it = std::wsregex_iterator(normalized.begin(), normalized.end(), regex);
-       it != std::wsregex_iterator(); ++it) {
-    std::wstring curr_normalized = normalized.substr(curr_offset, it->position() - curr_offset);
-    if (curr_normalized.length() > 0) {
-      result.push_back(NormalizedString(curr_normalized));
+  auto splits = pattern.find_matches(normalized);
+  if (split_delimiter_behavior == SplitDelimiterBehavior::Isolated) {
+    for (auto split : splits) {
+      split.second = false;
     }
-    if (split_delimiter_behavior == SplitDelimiterBehavior::Isolated) {
-      result.push_back(NormalizedString(char_delimiter_str));
-    } else if (split_delimiter_behavior == SplitDelimiterBehavior::Removed) {
-      std::wstring char_delimiter_str = L"";
-      result.push_back(NormalizedString(char_delimiter_str));
-    }
-    curr_offset = it->position() + 1;
+  } else if (split_delimiter_behavior == SplitDelimiterBehavior::Removed) {
+    // do nothing
+  } else if (split_delimiter_behavior == SplitDelimiterBehavior::MergedWithPrevious) {
+    // TODO(omkar)
+  } else if (split_delimiter_behavior == SplitDelimiterBehavior::MergedWithNext) {
+    // TODO(omkar)
   }
-  if (curr_offset < normalized.length()) {
-    std::wstring remaining_normalized = normalized.substr(curr_offset, normalized.length() - curr_offset);
-    result.push_back(NormalizedString(remaining_normalized));
+  for (auto split : splits) {
+    if (!split.second) {
+      std::wstring slice = normalized.substr(split.first.first, split.first.second - split.first.first);
+      result.push_back(NormalizedString(slice));
+    } else {
+      result.push_back(NormalizedString(L""));
+    }
   }
   return result;
 }

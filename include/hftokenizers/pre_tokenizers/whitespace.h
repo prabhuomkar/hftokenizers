@@ -10,13 +10,16 @@ namespace hftokenizers {
 
 namespace pre_tokenizers {
 
-class CharDelimiterSplit : public hftokenizers::tokenizer::PreTokenizer {
+class Whitespace : public hftokenizers::tokenizer::PreTokenizer {
  public:
-  explicit CharDelimiterSplit(wchar_t delimiter);
+  Whitespace();
   void pre_tokenize(hftokenizers::tokenizer::PreTokenizedString& input) override;
+};
 
- private:
-  wchar_t delimiter;
+class WhitespaceSplit : public hftokenizers::tokenizer::PreTokenizer {
+ public:
+  WhitespaceSplit();
+  void pre_tokenize(hftokenizers::tokenizer::PreTokenizedString& input) override;
 };
 
 }   // namespace pre_tokenizers
