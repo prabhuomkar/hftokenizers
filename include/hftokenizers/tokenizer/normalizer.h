@@ -32,6 +32,7 @@ class NormalizedString {
   void nfkc();
   void nfkd();
   void lowercase();
+  void prepend(std::wstring& str);
   friend std::wstring unicode_normalization(std::wstring& input, UNormalizationMode mode);
   std::vector<NormalizedString> split(Pattern& pattern, SplitDelimiterBehavior split_delimiter_behavior);
 

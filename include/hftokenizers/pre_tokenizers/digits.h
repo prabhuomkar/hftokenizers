@@ -12,7 +12,7 @@ namespace pre_tokenizers {
 
 class Digits : public hftokenizers::tokenizer::PreTokenizer {
  public:
-  Digits(bool individual_digits);
+  explicit Digits(bool individual_digits);
   void pre_tokenize(hftokenizers::tokenizer::PreTokenizedString& input) override;
 
  private:

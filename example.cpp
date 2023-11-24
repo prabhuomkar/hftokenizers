@@ -107,39 +107,46 @@ int main() {
   /*************************************************************/
   // delimiter
   PreTokenizedString pre_tokenized = PreTokenizedString(L"the-final--countdown");
-  CharDelimiterSplit delimiter = CharDelimiterSplit('-');
+  CharDelimiterSplit delimiter('-');
   delimiter.pre_tokenize(pre_tokenized);
   auto result = pre_tokenized.get_splits();
   cout << result.size() << endl;
 
   // whitespace
   pre_tokenized = PreTokenizedString(L"Hey, man, Good?");
-  WhitespaceSplit ws = WhitespaceSplit();
+  WhitespaceSplit ws;
   ws.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
   cout << result.size() << endl;
   pre_tokenized = PreTokenizedString(L"How are you doing?");
-  Whitespace w = Whitespace();
+  Whitespace w;
   w.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
   cout << result.size() << endl;
 
   // punctuation
   pre_tokenized = PreTokenizedString(L"Hey friend!     How are you?!?");
-  Punctuation punc = Punctuation();
+  Punctuation punc;
   punc.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
   cout << result.size() << endl;
 
   // digits
   pre_tokenized = PreTokenizedString(L"Hey 123 friend!");
-  Digits dig = Digits(false);
+  Digits dig(false);
   dig.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
   cout << result.size() << endl;
   pre_tokenized = PreTokenizedString(L"Hey 123 friend!");
   dig = Digits(true);
   dig.pre_tokenize(pre_tokenized);
+  result = pre_tokenized.get_splits();
+  cout << result.size() << endl;
+
+  // metaspace
+  pre_tokenized = PreTokenizedString(L"Hey   friend!");
+  Metaspace ms;
+  ms.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
   cout << result.size() << endl;
 
