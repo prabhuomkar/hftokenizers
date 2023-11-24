@@ -77,7 +77,21 @@ std::vector<NormalizedString> NormalizedString::split(Pattern& pattern,
   } else if (split_delimiter_behavior == SplitDelimiterBehavior::Removed) {
     // do nothing
   } else if (split_delimiter_behavior == SplitDelimiterBehavior::MergedWithPrevious) {
-    // TODO(omkar)
+    bool prev_match = false;
+    std::vector<std::pair<std::pair<int, int>, bool>> new_splits;
+    for (const auto& split : splits) {
+      if (split.second && !prev_match) {
+        if (!new_splits.empty()) {
+          new_splits.back().first.second = split.first.second;
+        } else {
+          new_splits.push_back(std::make_pair(split.first, false));
+        }
+      } else {
+        new_splits.push_back(std::make_pair(split.first, false));
+      }
+      prev_match = split.second;
+    }
+    splits = new_splits;
   } else if (split_delimiter_behavior == SplitDelimiterBehavior::MergedWithNext) {
     bool prev_match = false;
     std::vector<std::pair<std::pair<int, int>, bool>> new_splits;
