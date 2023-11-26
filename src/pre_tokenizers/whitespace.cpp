@@ -17,7 +17,7 @@ Whitespace::Whitespace() {}
 
 void Whitespace::pre_tokenize(PreTokenizedString& pre_tokenized) {
   pre_tokenized.split([this](NormalizedString normalized) {
-    RegexPattern pattern = RegexPattern(std::wregex(L"\\w+|[^\\w\\s]+"), true);
+    RegexPattern pattern = RegexPattern(L"\\w+|[^\\w\\s]+", true);
     return normalized.split(pattern, SplitDelimiterBehavior::Removed);
   });
 }

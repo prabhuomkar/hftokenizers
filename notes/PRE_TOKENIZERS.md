@@ -36,3 +36,8 @@ Implementation Source: [C++](../src/pre_tokenizers/metaspace.cpp)
 Splits the numbers from any other characters.	
 Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/pre_tokenizers/digits.rs)  
 Implementation Source: [C++](../src/pre_tokenizers/digits.cpp)
+
+## Split
+Versatile pre-tokenizer that splits on provided pattern and according to provided behavior.  
+Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/pre_tokenizers/split.rs)  
+Implementation Source: [C++](../src/pre_tokenizers/split.cpp)

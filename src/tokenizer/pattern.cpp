@@ -38,7 +38,7 @@ std::vector<std::pair<std::pair<int, int>, bool>> CharPattern::find_matches(cons
   return find_matches(inside, is_char);
 }
 
-RegexPattern::RegexPattern(std::wregex regex, bool invert) : regex(regex), invert(invert) {}
+RegexPattern::RegexPattern(std::wstring regex, bool invert) : regex(std::wregex(regex)), invert(invert) {}
 
 std::vector<std::pair<std::pair<int, int>, bool>> RegexPattern::find_matches(const std::wstring& inside) {
   std::vector<std::pair<std::pair<int, int>, bool>> matches;
@@ -55,7 +55,7 @@ std::vector<std::pair<std::pair<int, int>, bool>> RegexPattern::find_matches(con
       matches.emplace_back(std::make_pair(std::make_pair(prev, start), invert ? true : false));
     }
     matches.emplace_back(std::make_pair(std::make_pair(start, end), invert ? false : true));
-    prev = end - 1;
+    prev = end;
   }
   if (prev != inside.size()) {
     matches.emplace_back(std::make_pair(std::make_pair(prev, inside.size()), invert ? true : false));

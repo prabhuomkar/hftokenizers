@@ -30,7 +30,7 @@ class CharPattern : public Pattern {
 
 class RegexPattern : public Pattern {
  public:
-  explicit RegexPattern(std::wregex regex, bool invert = false);
+  explicit RegexPattern(std::wstring regex, bool invert = false);
   std::vector<std::pair<std::pair<int, int>, bool>> find_matches(const std::wstring& inside);
 
  private:

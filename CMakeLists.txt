@@ -30,6 +30,7 @@ add_library(hftokenizers SHARED
   src/pre_tokenizers/metaspace.cpp
   src/pre_tokenizers/digits.cpp
   src/pre_tokenizers/sequence.cpp
+  src/pre_tokenizers/split.cpp
 )
 
 target_link_libraries(hftokenizers PRIVATE ICU::uc ICU::i18n)

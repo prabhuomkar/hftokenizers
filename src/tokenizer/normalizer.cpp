@@ -69,7 +69,6 @@ std::vector<NormalizedString> NormalizedString::split(Pattern& pattern,
                                                       SplitDelimiterBehavior split_delimiter_behavior) {
   std::vector<NormalizedString> result;
   std::vector<std::pair<std::pair<int, int>, bool>> splits = pattern.find_matches(normalized);
-  std::cout << splits.size() << std::endl;
   if (split_delimiter_behavior == SplitDelimiterBehavior::Isolated) {
     for (auto& split : splits) {
       split.second = false;
@@ -143,7 +142,7 @@ std::vector<NormalizedString> NormalizedString::split(Pattern& pattern,
     if (!split.second) {
       auto length = split.first.first == split.first.second ? 1 : split.first.second - split.first.first;
       std::wstring slice = normalized.substr(split.first.first, length);
-      std::cout << NormalizedString(slice).get() << std::endl;
+      std::wcout << slice << std::endl;
       result.push_back(NormalizedString(slice));
     } else {
       result.push_back(NormalizedString(L""));
