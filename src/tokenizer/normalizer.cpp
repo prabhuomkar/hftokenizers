@@ -1,4 +1,4 @@
-// Copyright 2023 Omkar Prabhu
+// Copyright 2023-2024 Omkar Prabhu
 #include "hftokenizers/tokenizer/normalizer.h"
 
 #include <unicode/normlzr.h>
@@ -142,7 +142,6 @@ std::vector<NormalizedString> NormalizedString::split(Pattern& pattern,
     if (!split.second) {
       auto length = split.first.first == split.first.second ? 1 : split.first.second - split.first.first;
       std::wstring slice = normalized.substr(split.first.first, length);
-      std::wcout << slice << std::endl;
       result.push_back(NormalizedString(slice));
     } else {
       result.push_back(NormalizedString(L""));

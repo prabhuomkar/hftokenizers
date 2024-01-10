@@ -4,6 +4,7 @@
 #include <hftokenizers/normalizers/strip.h>
 #include <hftokenizers/normalizers/unicode.h>
 #include <hftokenizers/normalizers/utils.h>
+#include <hftokenizers/pre_tokenizers/bert.h>
 #include <hftokenizers/pre_tokenizers/delimiter.h>
 #include <hftokenizers/pre_tokenizers/digits.h>
 #include <hftokenizers/pre_tokenizers/metaspace.h>
@@ -20,6 +21,25 @@
 using namespace std;
 using namespace hftokenizers::normalizers;
 using namespace hftokenizers::pre_tokenizers;
+
+void print_splits(
+    std::vector<
+        std::tuple<std::wstring, std::pair<int, int>, std::optional<std::vector<hftokenizers::tokenizer::Token>>>>
+        result) {
+  bool fsplit = true;
+  for (auto split : result) {
+    auto spair = get<1>(split);
+    if (!fsplit) {
+      cout << ", ";
+    }
+    cout << "(" << hftokenizers::tokenizer::NormalizedString(get<0>(split)).get() << ", (" << spair.first << ","
+         << spair.second << "))";
+    if (fsplit) {
+      fsplit = false;
+    }
+  }
+  cout << endl;
+}
 
 int main() {
   /*************************************************************/
@@ -100,8 +120,8 @@ int main() {
 
   // bert
   normalized = hftokenizers::tokenizer::NormalizedString(L"Héllò hôw are ü?");
-  BertNormalizer bert(true, true, true, true);
-  bert.normalize(normalized);
+  BertNormalizer bertnorm(true, true, true, true);
+  bertnorm.normalize(normalized);
   cout << normalized.get() << endl;
 
   /*************************************************************/
@@ -113,45 +133,45 @@ int main() {
   CharDelimiterSplit delimiter('-');
   delimiter.pre_tokenize(pre_tokenized);
   auto result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
 
   // whitespace
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Hey, man, Good?");
   WhitespaceSplit ws;
   ws.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"How are you doing?");
   Whitespace w;
   w.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
 
   // punctuation
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Hey friend!     How are you?!?");
   Punctuation punc;
   punc.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
 
   // digits
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Hey 123 friend!");
   Digits dig(false);
   dig.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Hey 123 friend!");
   dig = Digits(true);
   dig.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
 
   // metaspace
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Hey   friend!");
   Metaspace ms;
   ms.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
 
   // split
   hftokenizers::tokenizer::RegexPattern split_pattern(L"\\w+|[^\\w\\s]+", true);
@@ -159,27 +179,34 @@ int main() {
   Split spr(split_pattern, hftokenizers::tokenizer::SplitDelimiterBehavior::Removed);
   spr.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"How are you doing?");
   Split spi(split_pattern, hftokenizers::tokenizer::SplitDelimiterBehavior::Isolated);
   spi.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"How are you doing?");
   Split spmwp(split_pattern, hftokenizers::tokenizer::SplitDelimiterBehavior::MergedWithPrevious);
   spmwp.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"How are you doing?");
   Split spmwn(split_pattern, hftokenizers::tokenizer::SplitDelimiterBehavior::MergedWithNext);
   spmwn.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"How are you doing?");
   Split spc(split_pattern, hftokenizers::tokenizer::SplitDelimiterBehavior::Contiguous);
   spc.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
-  cout << result.size() << endl;
+  print_splits(result);
+
+  // bert
+  pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Hey friend!     How are you?!?");
+  BertPreTokenizer bertpre;
+  bertpre.pre_tokenize(pre_tokenized);
+  result = pre_tokenized.get_splits();
+  print_splits(result);
 
   return 0;
 }

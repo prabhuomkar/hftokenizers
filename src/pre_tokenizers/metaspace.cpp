@@ -1,4 +1,4 @@
-// Copyright 2023 Omkar Prabhu
+// Copyright 2023-2024 Omkar Prabhu
 #include "hftokenizers/pre_tokenizers/metaspace.h"
 
 #include <functional>
@@ -24,7 +24,7 @@ void Metaspace::pre_tokenize(PreTokenizedString& pre_tokenized) {
     std::wstring content = std::wstring(1, replacement);
     Replace replace(replace_pattern, content);
     replace.normalize(normalized);
-    if (!normalized.get_normalized()[0] != replacement) {
+    if (normalized.get_normalized()[0] != replacement) {
       normalized.prepend(content);
     }
     CharPattern pattern = CharPattern(replacement);

@@ -1,4 +1,4 @@
-// Copyright 2023 Omkar Prabhu
+// Copyright 2023-2024 Omkar Prabhu
 #include "hftokenizers/normalizers/bert.h"
 
 #include <unicode/normlzr.h>

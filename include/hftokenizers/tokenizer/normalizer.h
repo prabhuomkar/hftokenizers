@@ -1,4 +1,4 @@
-// Copyright 2023 Omkar Prabhu
+// Copyright 2023-2024 Omkar Prabhu
 #pragma once
 
 #include <unicode/unorm.h>

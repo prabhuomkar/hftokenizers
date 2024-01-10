@@ -10,14 +10,10 @@ namespace hftokenizers {
 
 namespace pre_tokenizers {
 
-class Sequence : public hftokenizers::tokenizer::PreTokenizer {
+class BertPreTokenizer : public hftokenizers::tokenizer::PreTokenizer {
  public:
-  explicit Sequence(std::vector<hftokenizers::tokenizer::PreTokenizer*>& pre_tokenizers);
-  std::vector<hftokenizers::tokenizer::PreTokenizer*> get_pre_tokenizers();
+  BertPreTokenizer();
   void pre_tokenize(hftokenizers::tokenizer::PreTokenizedString& input) override;
-
- private:
-  std::vector<hftokenizers::tokenizer::PreTokenizer*> pre_tokenizers;
 };
 
 }   // namespace pre_tokenizers
