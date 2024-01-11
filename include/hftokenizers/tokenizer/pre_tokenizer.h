@@ -27,6 +27,7 @@ class PreTokenizedString {
  public:
   explicit PreTokenizedString(const std::wstring& original);
   void split(std::function<std::vector<NormalizedString>(NormalizedString)> split_fn);
+  void normalize(std::function<std::vector<NormalizedString>(NormalizedString)> normalize_fn);
   std::vector<std::tuple<std::wstring, std::pair<int, int>, std::optional<std::vector<Token>>>> get_splits();
 
  private:

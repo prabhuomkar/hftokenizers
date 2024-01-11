@@ -41,6 +41,10 @@ void PreTokenizedString::split(std::function<std::vector<NormalizedString>(Norma
   splits = new_splits;
 }
 
+void PreTokenizedString::normalize(std::function<std::vector<NormalizedString>(NormalizedString)> normalize_fn) {
+  // TODO(omkar)
+}
+
 std::vector<std::tuple<std::wstring, std::pair<int, int>, std::optional<std::vector<Token>>>>
 PreTokenizedString::get_splits() {
   std::vector<std::tuple<std::wstring, std::pair<int, int>, std::optional<std::vector<Token>>>> result;

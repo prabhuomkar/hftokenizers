@@ -5,6 +5,7 @@
 #include <hftokenizers/normalizers/unicode.h>
 #include <hftokenizers/normalizers/utils.h>
 #include <hftokenizers/pre_tokenizers/bert.h>
+#include <hftokenizers/pre_tokenizers/bytelevel.h>
 #include <hftokenizers/pre_tokenizers/delimiter.h>
 #include <hftokenizers/pre_tokenizers/digits.h>
 #include <hftokenizers/pre_tokenizers/metaspace.h>
@@ -205,6 +206,13 @@ int main() {
   pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Hey friend!     How are you?!?");
   BertPreTokenizer bertpre;
   bertpre.pre_tokenize(pre_tokenized);
+  result = pre_tokenized.get_splits();
+  print_splits(result);
+
+  // byte level
+  pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Hello my friend, how is your day going?");
+  ByteLevel bytelevel;
+  bytelevel.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
   print_splits(result);
 
