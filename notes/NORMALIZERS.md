@@ -12,12 +12,12 @@ can then be fed into a model without losing its meaning.
 ### Sequence
 Allows defining multiple normalizers as a sequence which runs in the given order.  
 Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/normalizers/utils.rs)  
-Implementation Source: [C++](../src/normalizers/utils.cpp)
+Implementation Source: [C++](../src/normalizers/sequence.cpp)
 
 ### Lowercase
 Converts all the uppercase characters to lowercase.  
 Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/normalizers/utils.rs)  
-Implementation Source: [C++](../src/normalizers/utils.cpp)
+Implementation Source: [C++](../src/normalizers/lowercase.cpp)
 
 ### Strip
 Removes whitespaces from specific sides i.e. left, right or both.  

@@ -23,7 +23,8 @@ add_library(hftokenizers SHARED
   src/normalizers/replace.cpp
   src/normalizers/strip.cpp
   src/normalizers/unicode.cpp
-  src/normalizers/utils.cpp
+  src/normalizers/lowercase.cpp
+  src/normalizers/sequence.cpp
   src/pre_tokenizers/delimiter.cpp
   src/pre_tokenizers/whitespace.cpp
   src/pre_tokenizers/punctuation.cpp

@@ -20,12 +20,6 @@ class Sequence : public hftokenizers::tokenizer::Normalizer {
   std::vector<hftokenizers::tokenizer::Normalizer*> normalizers;
 };
 
-class Lowercase : public hftokenizers::tokenizer::Normalizer {
- public:
-  Lowercase();
-  void normalize(hftokenizers::tokenizer::NormalizedString& input) override;
-};
-
 }   // namespace normalizers
 
 }   // namespace hftokenizers

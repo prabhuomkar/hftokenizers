@@ -1,15 +1,17 @@
 #include <hftokenizers/normalizers/bert.h>
+#include <hftokenizers/normalizers/lowercase.h>
 #include <hftokenizers/normalizers/prepend.h>
 #include <hftokenizers/normalizers/replace.h>
+#include <hftokenizers/normalizers/sequence.h>
 #include <hftokenizers/normalizers/strip.h>
 #include <hftokenizers/normalizers/unicode.h>
-#include <hftokenizers/normalizers/utils.h>
 #include <hftokenizers/pre_tokenizers/bert.h>
 #include <hftokenizers/pre_tokenizers/bytelevel.h>
 #include <hftokenizers/pre_tokenizers/delimiter.h>
 #include <hftokenizers/pre_tokenizers/digits.h>
 #include <hftokenizers/pre_tokenizers/metaspace.h>
 #include <hftokenizers/pre_tokenizers/punctuation.h>
+#include <hftokenizers/pre_tokenizers/sequence.h>
 #include <hftokenizers/pre_tokenizers/split.h>
 #include <hftokenizers/pre_tokenizers/whitespace.h>
 #include <hftokenizers/tokenizer/normalizer.h>
@@ -109,14 +111,14 @@ int main() {
   normalizers.push_back(&nfkd);
   normalizers.push_back(&sa);
   normalizers.push_back(&lowercase);
-  Sequence seq(normalizers);
-  seq.normalize(normalized);
+  hftokenizers::normalizers::Sequence norm_seq(normalizers);
+  norm_seq.normalize(normalized);
   cout << normalized.get() << endl;
   normalized = hftokenizers::tokenizer::NormalizedString(L"ậ…");
-  seq.normalize(normalized);
+  norm_seq.normalize(normalized);
   cout << normalized.get() << endl;
   normalized = hftokenizers::tokenizer::NormalizedString(L"e\u0304\u0304\u0304o");
-  seq.normalize(normalized);
+  norm_seq.normalize(normalized);
   cout << normalized.get() << endl;
 
   // bert
@@ -210,9 +212,19 @@ int main() {
   print_splits(result);
 
   // byte level
-  pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Hello my friend, how is your day going?");
-  ByteLevel bytelevel;
-  bytelevel.pre_tokenize(pre_tokenized);
+  // pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Hello my friend, how is your day going?");
+  // ByteLevel bytelevel;
+  // bytelevel.pre_tokenize(pre_tokenized);
+  // result = pre_tokenized.get_splits();
+  // print_splits(result);
+
+  // sequence
+  pre_tokenized = hftokenizers::tokenizer::PreTokenizedString(L"Call 911!");
+  vector<hftokenizers::tokenizer::PreTokenizer*> pre_tokenizers;
+  pre_tokenizers.push_back(&w);
+  pre_tokenizers.push_back(&dig);
+  hftokenizers::pre_tokenizers::Sequence pretok_seq(pre_tokenizers);
+  pretok_seq.pre_tokenize(pre_tokenized);
   result = pre_tokenized.get_splits();
   print_splits(result);
 

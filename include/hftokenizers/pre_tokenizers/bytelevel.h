@@ -19,7 +19,7 @@ class ByteLevel : public hftokenizers::tokenizer::PreTokenizer {
  private:
   bool add_prefix_space;
   bool use_regex;
-  std::unordered_map<int, char> bytes_char();
+  std::unordered_map<uint8_t, char> bytes_char();
 };
 
 }   // namespace pre_tokenizers

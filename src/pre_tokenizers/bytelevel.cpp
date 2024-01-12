@@ -17,32 +17,25 @@ using namespace hftokenizers::tokenizer;
 ByteLevel::ByteLevel(bool add_prefix_space, bool use_regex)
     : add_prefix_space(add_prefix_space), use_regex(use_regex) {}
 
-std::unordered_map<int, char> ByteLevel::bytes_char() {
-  std::vector<int> bs;
-  bs.reserve(128);
-  for (int i = '!'; i <= '~'; ++i) {
-    bs.push_back(i);
-  }
-  for (int i = 0xA1; i <= 0xAC; ++i) {
-    bs.push_back(i);
-  }
-  for (int i = 0xAE; i <= 0xFF; ++i) {
-    bs.push_back(i);
-  }
-  std::unordered_map<int, char> result;
-  std::vector<int> cs;
+std::unordered_map<uint8_t, char> ByteLevel::bytes_char() {
+  std::vector<uint8_t> bs;
+  bs.reserve(94);
+  bs.insert(bs.end(), '!', '~' + 1);
+  bs.insert(bs.end(), 0xA1, 0xAC + 1);
+  bs.insert(bs.end(), static_cast<unsigned char>(0xAE), static_cast<unsigned char>(0xFF + 1));
+  std::vector<uint32_t> cs;
   cs.reserve(bs.size());
   int n = 0;
-  for (int b = 0; b <= 255; ++b) {
-    auto it = std::find(bs.begin(), bs.end(), b);
-    if (it == bs.end()) {
+  for (uint8_t b = 0; b <= 255; ++b) {
+    if (std::find(bs.begin(), bs.end(), b) == bs.end()) {
       bs.push_back(b);
-      cs.push_back(std::pow(2, 8) + n);
-      n += 1;
+      cs.push_back(static_cast<uint32_t>(pow(2, 8) + n));
+      n++;
     }
   }
+  std::unordered_map<uint8_t, char> result;
   for (size_t i = 0; i < bs.size(); ++i) {
-    result[bs[i]] = static_cast<char>(cs[i]);
+    result.emplace(bs[i], static_cast<char>(cs[i]));
   }
   return result;
 }
@@ -61,5 +54,27 @@ void ByteLevel::pre_tokenize(PreTokenizedString& pre_tokenized) {
     std::vector<NormalizedString> result = {normalized};
     return result;
   });
-  // TODO(omkar)
+  pre_tokenized.normalize([this](NormalizedString normalized) {
+    auto BYTES_CHAR = bytes_char();
+    auto s = normalized.get_normalized();
+    std::vector<std::pair<wchar_t, int>> transformations;
+    int i = 0;
+    for (wchar_t cur_char : s) {
+      int size;
+      if (cur_char <= 0x7F) {
+        size = 1;
+      } else if (cur_char <= 0x7FF) {
+        size = 2;
+      } else if (cur_char <= 0xFFFF) {
+        size = 3;
+      } else {
+        size = 4;
+      }
+      const wchar_t* bytes = s.c_str() + i;
+      i += size;
+      for (int j = 0; j < size; ++j) {
+        transformations.emplace_back(BYTES_CHAR[static_cast<unsigned char>(bytes[j])], j > 0 ? 1 : 0);
+      }
+    }
+  });
 }

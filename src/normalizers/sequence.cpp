@@ -1,5 +1,5 @@
 // Copyright 2023-2024 Omkar Prabhu
-#include "hftokenizers/normalizers/utils.h"
+#include "hftokenizers/normalizers/sequence.h"
 
 #include <iostream>
 #include <string>
@@ -19,7 +19,3 @@ void Sequence::normalize(NormalizedString& input) {
     normalizer->normalize(input);
   }
 }
-
-Lowercase::Lowercase() {}
-
-void Lowercase::normalize(NormalizedString& input) { input.lowercase(); }
