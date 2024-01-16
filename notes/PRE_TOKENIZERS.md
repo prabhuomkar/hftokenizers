@@ -27,17 +27,27 @@ Will isolate all punctuation characters.
 Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/pre_tokenizers/punctuation.rs)  
 Implementation Source: [C++](../src/pre_tokenizers/punctuation.cpp)
 
-## Metaspace
+### Metaspace
 Splits on whitespaces and replaces them with a special char `▁` (U+2581).	
 Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/pre_tokenizers/metaspace.rs)  
 Implementation Source: [C++](../src/pre_tokenizers/metaspace.cpp)
 
-## Digits
+### Digits
 Splits the numbers from any other characters.	
 Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/pre_tokenizers/digits.rs)  
 Implementation Source: [C++](../src/pre_tokenizers/digits.cpp)
 
-## Split
+### Split
 Versatile pre-tokenizer that splits on provided pattern and according to provided behavior.  
 Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/pre_tokenizers/split.rs)  
 Implementation Source: [C++](../src/pre_tokenizers/split.cpp)
+
+### Bert
+Supports pre-tokenization for BERT like models.  
+Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/pre_tokenizers/bert.rs)  
+Implementation Source: [C++](../src/pre_tokenizers/bert.cpp)
+
+### ByteLevel
+Splits on whitespaces while remapping all the bytes to a set of visible characters.  
+Original Source: [Rust](https://github.com/huggingface/tokenizers/blob/main/tokenizers/src/pre_tokenizers/byte_level.rs)  
+Implementation Source: [C++](../src/pre_tokenizers/bytelevel.cpp)

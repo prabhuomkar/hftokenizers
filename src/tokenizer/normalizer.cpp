@@ -10,6 +10,7 @@
 #include <locale>
 #include <regex>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "hftokenizers/tokenizer/pattern.h"
@@ -149,5 +150,7 @@ std::vector<NormalizedString> NormalizedString::split(Pattern& pattern,
   }
   return result;
 }
+
+void NormalizedString::transform_range(std::vector<std::pair<wchar_t, int>> transformations, int initial_offset) {}
 
 void Normalizer::normalize(NormalizedString& input) {}

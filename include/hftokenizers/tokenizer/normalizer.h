@@ -4,6 +4,7 @@
 #include <unicode/unorm.h>
 
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "hftokenizers/tokenizer/pattern.h"
@@ -33,6 +34,7 @@ class NormalizedString {
   void nfkd();
   void lowercase();
   void prepend(std::wstring& str);
+  void transform_range(std::vector<std::pair<wchar_t, int>> transformations, int initial_offset);
   friend std::wstring unicode_normalization(std::wstring& input, UNormalizationMode mode);
   std::vector<NormalizedString> split(Pattern& pattern, SplitDelimiterBehavior split_delimiter_behavior);
 

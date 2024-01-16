@@ -76,5 +76,6 @@ void ByteLevel::pre_tokenize(PreTokenizedString& pre_tokenized) {
         transformations.emplace_back(BYTES_CHAR[static_cast<unsigned char>(bytes[j])], j > 0 ? 1 : 0);
       }
     }
+    normalized.transform_range(transformations, 0);
   });
 }
