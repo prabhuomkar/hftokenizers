@@ -1,6 +1,7 @@
 // Copyright 2023-2024 Omkar Prabhu
 #include "hftokenizers/pre_tokenizers/bytelevel.h"
 
+#include <cmath>
 #include <functional>
 #include <iostream>
 #include <regex>

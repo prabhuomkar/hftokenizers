@@ -14,13 +14,15 @@ Demystifying HuggingFace Tokenizers in C++
 cmake .
 make
 ```
-- Build the example program to run bunch of normalizers currently supported:
-```
-g++ --std=c++17 -o example example.cpp -Iinclude/ -I<icu include directory> -L. -lhftokenizers
-```
-- Build and run the example
+- Build and run the example on macOS
 ```
 export DYLD_LIBRARY_PATH=$PWD
+g++ --std=c++17 -o example example.cpp -Iinclude/ -I<icu4c include directory> -L. -lhftokenizers
+./example
+```
+- Build and run the example on Linux
+```
+export LD_LIBRARY_PATH=$PWD
 g++ --std=c++17 -o example example.cpp -Iinclude/ -I<icu4c include directory> -L. -lhftokenizers
 ./example
 ```
